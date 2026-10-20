@@ -523,6 +523,84 @@ body{--lg-blur-keep:1}
 .nexa-logo{filter:drop-shadow(0 5px 16px rgba(110,110,255,.5))}
 .seg button{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.15;display:flex;align-items:center;justify-content:center;text-align:center;min-height:36px}
 @media(max-width:480px){.seg button{padding:8px 3px;font-size:12px}}
+/* ===================== attachments (+ menu, tray, sketch) ===================== */
+:root{--spring:cubic-bezier(.34,1.56,.64,1);--spring-soft:cubic-bezier(.22,1.25,.36,1);--ease-ios:cubic-bezier(.32,.72,0,1)}
+.composer{overflow:visible!important;gap:8px}
+.composer-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.composer-main textarea{width:100%}
+.attach-wrap{position:relative;flex:0 0 auto}
+.plus-btn{width:43px;height:43px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--lg-border);background:var(--lg-fill-soft);color:var(--text);box-shadow:inset 0 1.5px 0 var(--lg-edge),var(--lg-shadow-sm);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.plus-btn svg{transition:transform .55s var(--spring)}
+.plus-btn[aria-expanded="true"] svg{transform:rotate(135deg)}
+.plus-btn[aria-expanded="true"]{background:var(--lg-fill-pressed)}
+.attach-menu{position:absolute;left:0;bottom:calc(100% + 14px);min-width:236px;padding:8px;border-radius:28px;z-index:60;display:flex;flex-direction:column;gap:2px;transform-origin:24px 100%;
+  background:linear-gradient(150deg,rgba(255,255,255,.9),rgba(246,243,255,.82));border:1px solid var(--lg-border);
+  box-shadow:0 22px 60px rgba(40,30,100,.28),inset 0 1.5px 0 var(--lg-edge);-webkit-backdrop-filter:blur(34px) saturate(190%);backdrop-filter:blur(34px) saturate(190%)}
+body.dark .attach-menu{background:linear-gradient(150deg,rgba(60,60,88,.94),rgba(34,34,54,.94));box-shadow:0 22px 60px rgba(0,0,0,.55),inset 0 1.5px 0 rgba(255,255,255,.22)}
+.attach-menu[hidden]{display:none}
+.attach-menu:not([hidden]):not(.closing){animation:popSpring .55s var(--spring) both,blurOut .4s ease-out both}
+.attach-menu.closing{animation:popOut .18s ease-in both}
+.attach-menu button{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border:0;border-radius:20px;background:transparent;color:var(--text);font-size:14px;font-weight:650;text-align:left}
+.attach-menu button:hover{background:rgba(128,101,255,.14)}
+.attach-menu .mi{width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;color:#fff;box-shadow:inset 0 1.5px 0 rgba(255,255,255,.6),0 4px 10px rgba(0,0,0,.18)}
+.mi-files{background:linear-gradient(135deg,#6c83ff,#8b4fe8)}.mi-photos{background:linear-gradient(135deg,#18b982,#6ce6b0)}
+.mi-camera{background:linear-gradient(135deg,#f58a1f,#ffc067)}.mi-draw{background:linear-gradient(135deg,#ec5ca0,#ffa078)}
+.attach-tray{display:flex;flex-wrap:wrap;gap:8px;padding:6px 6px 0}
+.attach-tray[hidden]{display:none}
+.att{position:relative;animation:msgIn .5s var(--spring) both}
+.att-img img{display:block;width:58px;height:58px;object-fit:cover;border-radius:16px;border:1px solid var(--lg-border);box-shadow:var(--lg-shadow-sm)}
+.att-file{display:flex;align-items:center;gap:8px;max-width:190px;padding:9px 30px 9px 11px;border-radius:16px;border:1px solid var(--lg-border);background:var(--lg-fill-soft);font-size:12px;font-weight:650;box-shadow:inset 0 1px 0 var(--lg-edge-soft)}
+.att-file .nm,.att-chip .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.att-x{position:absolute;top:-7px;right:-7px;width:22px;height:22px;border-radius:50%;border:1px solid var(--lg-border);background:var(--panel-solid);color:var(--text);font-size:14px;line-height:1;display:grid;place-items:center;box-shadow:0 3px 8px rgba(0,0,0,.25);padding:0}
+.msg-atts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+.message.user .msg-atts{justify-content:flex-end}
+.msg-att-img{display:block;max-width:210px;max-height:170px;border-radius:18px;border:1px solid var(--lg-border);box-shadow:var(--lg-shadow-sm)}
+.att-chip{display:flex;align-items:center;gap:8px;max-width:240px;padding:8px 12px;border-radius:16px;border:1px solid var(--lg-border);background:var(--lg-fill-soft);font-size:12px;font-weight:650}
+.ico{display:grid;place-items:center;flex:none;opacity:.8}
+.drop-overlay{position:absolute;inset:0;z-index:70;display:grid;place-items:center;border-radius:inherit;background:rgba(40,30,110,.22);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.drop-overlay[hidden]{display:none}
+.drop-card{display:flex;flex-direction:column;align-items:center;gap:12px;padding:30px 38px;border-radius:32px;border:2px dashed var(--lg-edge);background:var(--lg-fill);font-weight:750;animation:popSpring .5s var(--spring) both;box-shadow:var(--lg-shadow)}
+.sketch-sheet{width:min(100%,640px)}
+#sketchCanvas{display:block;width:100%;height:auto;aspect-ratio:3/2;margin:12px 0 10px;border-radius:22px;background:#fff;touch-action:none;cursor:crosshair;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08),var(--lg-shadow-sm)}
+.sketch-tools{position:relative;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.sketch-colors{display:flex;gap:10px;flex:1}
+.sketch-colors button{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.7);background:var(--c);box-shadow:0 3px 8px rgba(0,0,0,.25),inset 0 2px 3px rgba(255,255,255,.5);padding:0}
+.sketch-colors button[aria-pressed="true"]{outline:3px solid var(--text);outline-offset:2px}
+
+/* ===================== iOS 26 / 27 motion: springs, zoom-from-tap, glow ===================== */
+@keyframes popSpring{0%{opacity:0;transform:scale(.35) translateY(18px)}55%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes popOut{to{opacity:0;transform:scale(.6) translateY(10px)}}
+@keyframes blurOut{from{filter:blur(8px)}to{filter:blur(0)}}
+@keyframes launchIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+@keyframes msgIn{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes sheetIn{from{opacity:0;transform:translateY(44px) scale(.86)}to{opacity:1;transform:none}}
+@keyframes logoPop{from{opacity:0;transform:scale(.5) rotate(-8deg)}to{opacity:1;transform:none}}
+@property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+@keyframes spinAng{to{--ang:360deg}}
+.page.launch{transform-origin:var(--ox,50%) var(--oy,50%);animation:launchIn .62s var(--ease-ios) both,blurOut .5s ease-out both}
+.message{animation:msgIn .6s var(--spring) both}
+.welcome .suggestion{animation:msgIn .7s var(--spring) both}
+.welcome .suggestion:nth-child(1){animation-delay:.05s}.welcome .suggestion:nth-child(2){animation-delay:.11s}
+.welcome .suggestion:nth-child(3){animation-delay:.17s}.welcome .suggestion:nth-child(4){animation-delay:.23s}
+.welcome-logo{animation:logoPop .8s var(--spring) both!important}
+.glass-select-list:not([hidden]){transform-origin:100% 0;animation:popSpring .5s var(--spring) both}
+.toast{transition:opacity .25s ease,transform .6s var(--spring)!important}
+/* sheets: spring up from below with a soft scale (like iOS 26 sheets) */
+.auth-sheet{transform:translateY(44px) scale(.86)!important;opacity:0;transition:transform .65s var(--spring),opacity .3s ease!important}
+.auth-overlay.open .auth-sheet{transform:none!important;opacity:1}
+.auth-overlay{transition:opacity .35s ease,visibility .35s ease!important}
+@media(max-width:850px){.sidebar{transition:transform .55s var(--ease-ios)!important}}
+/* squish on press, spring back on release */
+button{-webkit-tap-highlight-color:transparent}
+button:not(:disabled):not(:active){transition:transform .5s var(--spring),background .2s ease,box-shadow .2s ease,filter .2s ease,border-color .2s ease,color .2s ease,opacity .2s ease}
+button:not(:disabled):active{transform:scale(.93)!important;transition:transform .09s ease-out!important}
+.toggle:active span{width:36px}
+/* Apple-Intelligence style glow while Nexa is thinking */
+.composer.thinking{box-shadow:0 0 38px rgba(150,120,255,.38),0 0 70px rgba(90,200,255,.2),var(--lg-shadow-sm)!important}
+.composer.thinking::after{opacity:1!important;background:conic-gradient(from var(--ang),#5ee7ff,#a78bfa,#f472d0,#ffb86b,#5ee7ff);animation:spinAng 2.6s linear infinite}
+@media(prefers-reduced-motion:reduce){.page.launch,.attach-menu,.message,.welcome .suggestion,.welcome-logo,.glass-select-list,.drop-card,.att,.composer.thinking::after{animation:none!important}.auth-sheet{transition:none!important}}
+body.no-animations .page.launch,body.no-animations .attach-menu,body.no-animations .message,body.no-animations .welcome .suggestion,body.no-animations .glass-select-list,body.no-animations .drop-card,body.no-animations .att,body.no-animations .composer.thinking::after{animation:none!important}
+body.no-animations .auth-sheet{transition:none!important}
 </style>
 </head>
 
@@ -568,8 +646,23 @@ body{--lg-blur-keep:1}
       <div class="messages" id="messages"></div>
       <div class="composer-wrap">
         <form class="composer" id="chatForm">
-          <textarea id="prompt" rows="1" placeholder="Message Nexa Ai..." aria-label="Message Nexa AI"></textarea>
+          <div class="attach-wrap">
+            <button class="plus-btn" id="plusBtn" type="button" aria-label="Attach" data-i18n-aria="attach" aria-haspopup="menu" aria-expanded="false" aria-controls="attachMenu"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+            <div class="attach-menu" id="attachMenu" role="menu" hidden>
+          <button type="button" role="menuitem" data-act="files"><span class="mi mi-files"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5l-8.6 8.6a5.5 5.5 0 0 1-7.8-7.8l8.6-8.6a3.7 3.7 0 0 1 5.2 5.2l-8.6 8.6a1.8 1.8 0 0 1-2.6-2.6l7.9-7.9"/></svg></span><span data-i18n="attachFiles">Upload files</span></button>
+          <button type="button" role="menuitem" data-act="photos"><span class="mi mi-photos"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg></span><span data-i18n="attachPhotos">Photo library</span></button>
+          <button type="button" role="menuitem" data-act="camera"><span class="mi mi-camera"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.4h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg></span><span data-i18n="attachCamera">Take a photo</span></button>
+          <button type="button" role="menuitem" data-act="draw"><span class="mi mi-draw"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><span data-i18n="attachDraw">Draw a sketch</span></button>
+            </div>
+          </div>
+          <div class="composer-main">
+            <div class="attach-tray" id="attachTray" hidden></div>
+            <textarea id="prompt" rows="1" placeholder="Message Nexa Ai..." aria-label="Message Nexa AI"></textarea>
+          </div>
           <button class="send-btn" id="sendBtn" type="button" aria-label="Send message" data-i18n-aria="sendMessage">↑</button>
+          <input type="file" id="fileInput" multiple hidden>
+          <input type="file" id="photoInput" accept="image/*" multiple hidden>
+          <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
         </form>
         <div class="composer-note" data-i18n="mistakeNote">Nexa AI can make mistakes. Check important information.</div>
       </div>
@@ -660,6 +753,7 @@ body{--lg-blur-keep:1}
       </div>
     </section>
 
+  <div class="drop-overlay" id="dropOverlay" hidden><div class="drop-card"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 20h14"/></svg><span data-i18n="dropHere">Drop files to attach them</span></div></div>
   </main>
 </div>
 
@@ -697,6 +791,32 @@ body{--lg-blur-keep:1}
     <div class="confirm-actions">
       <button class="auth-choice-secondary" id="signOutCancel" type="button" data-i18n="cancel">Cancel</button>
       <button class="auth-submit danger" id="signOutConfirm" type="button" data-i18n="signOut">Sign out</button>
+    </div>
+  </section>
+</div>
+
+<div class="auth-overlay" id="sketchOverlay" aria-hidden="true">
+  <section class="auth-sheet sketch-sheet" role="dialog" aria-modal="true" aria-labelledby="sketchTitle">
+    <h2 id="sketchTitle" data-i18n="sketchTitle">Draw a sketch</h2>
+    <canvas id="sketchCanvas" width="900" height="600" aria-label="Sketch canvas"></canvas>
+    <div class="sketch-tools">
+      <div class="sketch-colors" id="sketchColors" role="group">
+        <button type="button" data-c="#1d1d2b" style="--c:#1d1d2b" aria-label="Black" aria-pressed="true"></button>
+        <button type="button" data-c="#3b6cf0" style="--c:#3b6cf0" aria-label="Blue" aria-pressed="false"></button>
+        <button type="button" data-c="#e8456f" style="--c:#e8456f" aria-label="Red" aria-pressed="false"></button>
+        <button type="button" data-c="#18b982" style="--c:#18b982" aria-label="Green" aria-pressed="false"></button>
+        <button type="button" data-c="#f58a1f" style="--c:#f58a1f" aria-label="Orange" aria-pressed="false"></button>
+        <button type="button" data-c="#8b4fe8" style="--c:#8b4fe8" aria-label="Purple" aria-pressed="false"></button>
+      </div>
+      <input class="lg-range" id="sketchSize" type="range" min="2" max="28" value="7" aria-label="Brush size">
+    </div>
+    <div class="sketch-tools">
+      <button class="secondary-btn" id="sketchUndo" type="button" data-i18n="sketchUndo">Undo</button>
+      <button class="secondary-btn" id="sketchClear" type="button" data-i18n="sketchClear">Clear</button>
+    </div>
+    <div class="confirm-actions">
+      <button class="auth-choice-secondary" id="sketchCancel" type="button" data-i18n="cancel">Cancel</button>
+      <button class="auth-submit" id="sketchAttach" type="button" data-i18n="sketchAttach">Attach</button>
     </div>
   </section>
 </div>
@@ -845,6 +965,10 @@ const translations = {
 Object.assign(translations.en,{"tabAI": "AI", "aiIntro": "Teach Nexa how to talk to you.", "personality": "Personality", "personalityDesc": "The tone Nexa answers with.", "pFriendly": "Friendly", "pPro": "Pro", "pPlayful": "Playful", "pConcise": "Concise", "replyLang": "Reply language", "replyLangDesc": "Which language Nexa answers in.", "auto": "Auto", "userNote": "Custom instructions", "userNoteDesc": "Anything Nexa should always remember about you or how to answer.", "userNotePh": "For example: keep answers short and use simple words", "accent": "Accent color", "accentDesc": "Changes buttons and highlights.", "blurAmount": "Glass blur", "blurDesc": "How frosted the glass looks.", "textSize": "Text size", "textSizeDesc": "Size of the chat text.", "orbSpeed": "Ball speed", "orbSpeedDesc": "How fast the background balls move.", "speedCalm": "Calm", "speedNormal": "Normal", "speedFast": "Fast", "timestamps": "Show message time", "timestampsDesc": "Shows the time next to each message.", "sound": "Message sounds", "soundDesc": "A soft sound when you send and when Nexa answers.", "vibrate": "Vibration", "vibrateDesc": "A tiny buzz on phones when you send.", "greetName": "Greet me by name", "greetNameDesc": "Shows a hello with your name on the start screen.", "exportChats": "Export chats", "exportChatsDesc": "Save all your chats as a text file.", "exportBtn": "Export", "copyChat": "Copy this chat", "copyChatDesc": "Copy the open conversation to the clipboard.", "copyBtn": "Copy", "exported": "Chats exported.", "nothingToExport": "No chats to export yet.", "copied": "Chat copied.", "copiedInstead": "Download is blocked here, so it was copied instead.", "exportFail": "Could not export here.", "stats": "Your Nexa stats", "statChats": "Chats", "statMessages": "Messages", "statWords": "Words you wrote", "statSince": "Chatting since", "shortcuts": "Keyboard shortcuts", "shortcutsDesc": "Ctrl/⌘ + K: new chat · /: focus the message box · Esc: close windows", "greetMorning": "Good morning", "greetAfternoon": "Good afternoon", "greetEvening": "Good evening", "greetNight": "Good night", "stop": "Stop", "sampleDenied": "AI access was not allowed. Reload the page and allow it to chat.", "rateLimited": "Too many messages in a row. Wait a little and try again.", "noneYet": "—"});
 Object.assign(translations.hy,{"tabAI": "AI", "aiIntro": "Սովորեցրու Nexa-ին՝ ինչպես խոսի քեզ հետ։", "personality": "Բնավորություն", "personalityDesc": "Տոնը, որով Nexa-ն պատասխանում է։", "pFriendly": "Ջերմ", "pPro": "Լուրջ", "pPlayful": "Զվարճալի", "pConcise": "Կարճ", "replyLang": "Պատասխանի լեզուն", "replyLangDesc": "Ո՞ր լեզվով պատասխանի Nexa-ն։", "auto": "Ավտո", "userNote": "Իմ հրահանգները", "userNoteDesc": "Այն, ինչ Nexa-ն միշտ պետք է հիշի քո կամ պատասխանի ձևի մասին։", "userNotePh": "Օրինակ՝ պատասխանիր կարճ և պարզ բառերով", "accent": "Գույնի շեշտ", "accentDesc": "Փոխում է կոճակների և ընդգծումների գույնը։", "blurAmount": "Ապակու մշուշը", "blurDesc": "Որքան «սառած» է երևում ապակին։", "textSize": "Տառաչափ", "textSizeDesc": "Զրույցի տեքստի չափը։", "orbSpeed": "Գնդիկների արագությունը", "orbSpeedDesc": "Որքան արագ են շարժվում ֆոնի գնդիկները։", "speedCalm": "Հանգիստ", "speedNormal": "Սովորական", "speedFast": "Արագ", "timestamps": "Ցույց տալ հաղորդագրության ժամը", "timestampsDesc": "Յուրաքանչյուր հաղորդագրության կողքին ցույց է տալիս ժամը։", "sound": "Ձայներ", "soundDesc": "Մեղմ ձայն՝ երբ ուղարկում ես և երբ Nexa-ն պատասխանում է։", "vibrate": "Թրթռոց", "vibrateDesc": "Հեռախոսով ուղարկելիս թեթև թրթռոց։", "greetName": "Դիմել անունով", "greetNameDesc": "Սկզբնական էկրանին ցույց է տալիս ողջույն քո անունով։", "exportChats": "Արտահանել զրույցները", "exportChatsDesc": "Պահիր բոլոր զրույցները տեքստային ֆայլով։", "exportBtn": "Արտահանել", "copyChat": "Պատճենել այս զրույցը", "copyChatDesc": "Պատճենիր բաց զրույցը clipboard-ում։", "copyBtn": "Պատճենել", "exported": "Զրույցները արտահանվեցին։", "nothingToExport": "Արտահանելու զրույց դեռ չկա։", "copied": "Զրույցը պատճենվեց։", "copiedInstead": "Ներբեռնումն այստեղ արգելված է, ուստի պատճենվեց։", "exportFail": "Այստեղ չհաջողվեց արտահանել։", "stats": "Քո Nexa-ի վիճակագրությունը", "statChats": "Զրույցներ", "statMessages": "Հաղորդագրություններ", "statWords": "Քո գրած բառերը", "statSince": "Զրուցում ես սկսած", "shortcuts": "Արագ ստեղներ", "shortcutsDesc": "Ctrl/⌘ + K՝ նոր զրույց · /՝ գրելու դաշտ · Esc՝ փակել պատուհանները", "greetMorning": "Բարի լույս", "greetAfternoon": "Բարի օր", "greetEvening": "Բարի երեկո", "greetNight": "Բարի գիշեր", "stop": "Կանգնեցնել", "sampleDenied": "AI-ի հասանելիությունը չթույլատրվեց։ Վերաբեռնիր էջը և թույլատրիր։", "rateLimited": "Շատ հաղորդագրություններ իրար հետևից։ Մի փոքր սպասիր և նորից փորձիր։", "noneYet": "—"});
 Object.assign(translations.ru,{"tabAI": "AI", "aiIntro": "Научите Nexa общаться с вами.", "personality": "Характер", "personalityDesc": "Тон, которым отвечает Nexa.", "pFriendly": "Тёплый", "pPro": "Деловой", "pPlayful": "Игривый", "pConcise": "Краткий", "replyLang": "Язык ответа", "replyLangDesc": "На каком языке отвечает Nexa.", "auto": "Авто", "userNote": "Мои инструкции", "userNoteDesc": "Всё, что Nexa должна помнить о вас или о стиле ответов.", "userNotePh": "Например: отвечай коротко и простыми словами", "accent": "Цвет акцента", "accentDesc": "Меняет цвет кнопок и выделений.", "blurAmount": "Размытие стекла", "blurDesc": "Насколько матовым выглядит стекло.", "textSize": "Размер текста", "textSizeDesc": "Размер текста в чате.", "orbSpeed": "Скорость шариков", "orbSpeedDesc": "Как быстро движутся шарики на фоне.", "speedCalm": "Спокойно", "speedNormal": "Обычно", "speedFast": "Быстро", "timestamps": "Показывать время сообщений", "timestampsDesc": "Показывает время рядом с каждым сообщением.", "sound": "Звуки сообщений", "soundDesc": "Мягкий звук при отправке и при ответе Nexa.", "vibrate": "Вибрация", "vibrateDesc": "Лёгкая вибрация на телефоне при отправке.", "greetName": "Приветствовать по имени", "greetNameDesc": "Показывает приветствие с вашим именем на стартовом экране.", "exportChats": "Экспорт чатов", "exportChatsDesc": "Сохраните все чаты в текстовый файл.", "exportBtn": "Экспорт", "copyChat": "Копировать этот чат", "copyChatDesc": "Скопировать открытый разговор в буфер обмена.", "copyBtn": "Копировать", "exported": "Чаты экспортированы.", "nothingToExport": "Пока нет чатов для экспорта.", "copied": "Чат скопирован.", "copiedInstead": "Скачивание здесь заблокировано, поэтому текст скопирован.", "exportFail": "Здесь не удалось экспортировать.", "stats": "Ваша статистика Nexa", "statChats": "Чаты", "statMessages": "Сообщения", "statWords": "Слов написано", "statSince": "Общаетесь с", "shortcuts": "Горячие клавиши", "shortcutsDesc": "Ctrl/⌘ + K: новый чат · /: поле сообщения · Esc: закрыть окна", "greetMorning": "Доброе утро", "greetAfternoon": "Добрый день", "greetEvening": "Добрый вечер", "greetNight": "Доброй ночи", "stop": "Остановить", "sampleDenied": "Доступ к ИИ не разрешён. Перезагрузите страницу и разрешите.", "rateLimited": "Слишком много сообщений подряд. Подождите немного.", "noneYet": "—"});
+
+Object.assign(translations.en,{"attach": "Attach", "attachFiles": "Upload files", "attachPhotos": "Photo library", "attachCamera": "Take a photo", "attachDraw": "Draw a sketch", "dropHere": "Drop files to attach them", "removeAtt": "Remove", "tooMany": "You can attach up to 6 files.", "tooBig": "That file is too big (max 15 MB).", "sketchTitle": "Draw a sketch", "sketchUndo": "Undo", "sketchClear": "Clear", "sketchAttach": "Attach", "sketchEmpty": "Draw something first.", "cantReadFile": "Nexa can't read this file type yet; only its name is sent.", "imagesOff": "Images can't be analysed here; they are only attached to the chat."});
+Object.assign(translations.hy,{"attach": "Կցել", "attachFiles": "Վերբեռնել ֆայլեր", "attachPhotos": "Լուսանկարներ", "attachCamera": "Նկարել", "attachDraw": "Գծանկար", "dropHere": "Գցիր ֆայլերն այստեղ՝ կցելու համար", "removeAtt": "Հեռացնել", "tooMany": "Կարելի է կցել առավելագույնը 6 ֆայլ։", "tooBig": "Ֆայլը շատ մեծ է (առավելագույնը 15 ՄԲ)։", "sketchTitle": "Գծիր նկար", "sketchUndo": "Հետ", "sketchClear": "Մաքրել", "sketchAttach": "Կցել", "sketchEmpty": "Նախ ինչ-որ բան գծիր։", "cantReadFile": "Nexa-ն դեռ չի կարող կարդալ այս տեսակի ֆայլը․ կուղարկվի միայն անունը։", "imagesOff": "Այստեղ նկարները չեն վերլուծվում․ դրանք միայն կցվում են զրույցին։"});
+Object.assign(translations.ru,{"attach": "Прикрепить", "attachFiles": "Загрузить файлы", "attachPhotos": "Фотографии", "attachCamera": "Сделать фото", "attachDraw": "Нарисовать", "dropHere": "Перетащите файлы сюда", "removeAtt": "Убрать", "tooMany": "Можно прикрепить не более 6 файлов.", "tooBig": "Файл слишком большой (макс. 15 МБ).", "sketchTitle": "Нарисуйте набросок", "sketchUndo": "Отменить", "sketchClear": "Очистить", "sketchAttach": "Прикрепить", "sketchEmpty": "Сначала что-нибудь нарисуйте.", "cantReadFile": "Nexa пока не читает этот тип файла; отправится только имя.", "imagesOff": "Здесь изображения не анализируются; они только прикрепляются к чату."});
 
 const sidebar = $("#sidebar");
 const overlay = $("#overlay");
@@ -1078,9 +1202,11 @@ function updateTopStatus() {
 function switchPage(name) {
   const target = $(`#${name}Page`);
   if (!target) return;
+  const prevPage = currentPage;
   currentPage = name;
   $$(".page").forEach(page => page.classList.remove("active"));
   target.classList.add("active");
+  if (prevPage !== name) playLaunch(target);
   $$(".nav-btn[data-page]").forEach(button => {
     button.classList.toggle("active",button.dataset.page === name);
   });
@@ -1269,7 +1395,7 @@ function renderAssistantContent(container,text) {
   }
   if (last < text.length) container.appendChild(document.createTextNode(text.slice(last)));
 }
-function appendMessage(role,text,shouldSave=true,ts) {
+function appendMessage(role,text,shouldSave=true,ts,atts=null,ctx="") {
   const when = ts ?? (shouldSave ? Date.now() : null);
   $(".welcome",messages)?.remove();
   const bubble = document.createElement("div");
@@ -1282,11 +1408,13 @@ function appendMessage(role,text,shouldSave=true,ts) {
   content.className = "message-text";
   if (role === "user") content.textContent = text;
   else renderAssistantContent(content,text);
-  bubble.append(label,content);
+  bubble.append(label);
+  if (atts && atts.length) bubble.append(buildAttsView(atts));
+  if (!(role === "user" && !text && atts && atts.length)) bubble.append(content);
   messages.appendChild(bubble);
   messages.scrollTop = messages.scrollHeight;
   if (shouldSave) {
-    chatMessages.push({role,text,ts:when});
+    chatMessages.push({role,text,ts:when,...(atts && atts.length ? {atts} : {}),...(ctx ? {ctx} : {})});
     persistChat();
   }
   return bubble;
@@ -1322,12 +1450,21 @@ function buildSystem() {
   if ((prefs.userNote || "").trim()) sys += "\nUser's custom instructions: " + prefs.userNote.trim();
   return sys + "\n\n";
 }
-function buildHistory() {
+function buildHistory(imagesShown=false) {
   const list = [];
-  chatMessages.filter(m => m.text !== t("serverError")).forEach(m => {
+  const lastIdx = chatMessages.length - 1;
+  chatMessages.forEach((m,i) => {
+    if (m.text === t("serverError")) return;
     const role = m.role === "assistant" ? "assistant" : "user";
-    if (list.length && list[list.length-1].role === role) list[list.length-1].content += "\n\n" + m.text;
-    else list.push({role, content:m.text});
+    let content = m.text || ((m.atts || []).length ? "Please look at the attached file(s)." : "");
+    if (m.ctx) content += (content ? "\n\n" : "") + m.ctx;
+    const imgNames = (m.atts || []).filter(a => a.kind === "image").map(a => a.name);
+    const fileNames = (m.atts || []).filter(a => a.kind === "file").map(a => a.name);
+    if (imgNames.length) content += (content ? "\n\n" : "") + (i === lastIdx && imagesShown ? "(Attached image(s) shown to you: " : "(The user attached image(s) that you cannot see now: ") + imgNames.join(", ") + ")";
+    if (fileNames.length) content += (content ? "\n\n" : "") + "(The user attached file(s) you cannot read: " + fileNames.join(", ") + ")";
+    if (!content) content = "Please look at the attached files.";
+    if (list.length && list[list.length-1].role === role) list[list.length-1].content += "\n\n" + content;
+    else list.push({role, content});
   });
   while (list.length && list[0].role !== "user") list.shift();
   if (list.length) list[0].content = buildSystem() + list[0].content;
@@ -1335,15 +1472,21 @@ function buildHistory() {
 }
 function setBusyUI(v) {
   busy = v;
+  $("#chatForm")?.classList.toggle("thinking",v);
   sendBtn.textContent = v ? "■" : "↑";
   sendBtn.setAttribute("aria-label", v ? t("stop") : t("sendMessage"));
 }
 async function handleChatSubmit(e) {
   e?.preventDefault();
   const text = promptInput.value.trim();
-  if (!text || busy) return;
+  if ((!text && !attachments.length) || busy) return;
+  closeAttachMenu();
   switchPage("chat");
-  appendMessage("user",text);
+  const atts = attachments.slice();
+  const meta = atts.map(a => ({kind:a.kind,name:a.name,...(a.thumb ? {thumb:a.thumb} : {})}));
+  const ctx = atts.filter(a => a.text).map(a => "[File: " + a.name + "]\n```\n" + a.text + "\n```").join("\n\n");
+  appendMessage("user",text,true,undefined,meta,ctx);
+  attachments = []; renderTray();
   promptInput.value = "";
   resizeTextarea();
   buzz(); blip(660);
@@ -1354,19 +1497,31 @@ async function handleChatSubmit(e) {
   try {
     const sample = await getSample();
     if (sample) {
-      const res = await sample(buildHistory(),{cache:false,signal:abortCtl.signal,onText:({text:tx}) => {
+      const imgs = atts.filter(a => a.kind === "image" && a.blob).map(a => a.blob);
+      let sendImgs = [];
+      if (imgs.length) {
+        let caps = null;
+        try { caps = sample.limits ? await sample.limits() : null; } catch {}
+        if (caps && caps.images) sendImgs = imgs.slice(0,caps.images.maxCount || 5);
+        else showToast(t("imagesOff"));
+      }
+      const opts = {cache:false,signal:abortCtl.signal,onText:({text:tx}) => {
         out = tx;
         if (!live) { $("#typingBubble")?.remove(); live = appendMessage("assistant","",false,Date.now()); }
         const box = live.querySelector(".message-text");
         box.replaceChildren(); renderAssistantContent(box,out);
         messages.scrollTop = messages.scrollHeight;
-      }});
+      }};
+      if (sendImgs.length) opts.images = sendImgs;
+      const res = await sample(buildHistory(sendImgs.length > 0),opts);
       out = (res && res.text) || out;
     } else {
+      const sendAtts = [];
+      for (const a of atts) sendAtts.push({kind:a.kind,name:a.name,text:a.text,dataUrl:(a.kind === "image" && a.blob) ? await blobToDataURL(a.blob) : undefined});
       const response = await fetch("/api/chat",{
         method:"POST",
         headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({message:text,system:buildSystem(),history:buildHistory(),personality:prefs.personality,language:prefs.replyLang,instructions:prefs.userNote})
+        body:JSON.stringify({message:text,system:buildSystem(),history:buildHistory(false),attachments:sendAtts,personality:prefs.personality,language:prefs.replyLang,instructions:prefs.userNote})
       });
       if (!response.ok) throw new Error("HTTP " + response.status);
       const data = await response.json();
@@ -1650,7 +1805,7 @@ function openChat(id) {
   activeChatId = chat.id;
   chatMessages = [...chat.messages];
   messages.replaceChildren();
-  chatMessages.forEach(message => appendMessage(message.role,message.text,false,message.ts));
+  chatMessages.forEach(message => appendMessage(message.role,message.text,false,message.ts,message.atts));
   switchPage("chat");
   messages.scrollTop = messages.scrollHeight;
 }
@@ -1781,7 +1936,7 @@ $$('[data-pref="vibrate"]').forEach(b => b.addEventListener("click", () => buzz(
 function reRenderChat() {
   if (!chatMessages.length) { showWelcome(); return; }
   messages.replaceChildren();
-  chatMessages.forEach(m => appendMessage(m.role,m.text,false,m.ts));
+  chatMessages.forEach(m => appendMessage(m.role,m.text,false,m.ts,m.atts));
 }
 $$('[data-pref="timestamps"]').forEach(b => b.addEventListener("click", reRenderChat));
 $$('[data-pref="greetName"]').forEach(b => b.addEventListener("click", () => { if (!chatMessages.length) showWelcome(); }));
@@ -1789,7 +1944,7 @@ $$('[data-pref="greetName"]').forEach(b => b.addEventListener("click", () => { i
 /* export + copy */
 function chatToText(c) {
   const head = c.title + "\n" + "=".repeat(Math.min(48,Math.max(3,c.title.length)));
-  return head + "\n\n" + c.messages.map(m => "[" + (m.role === "user" ? (profileName || t("you")) : "Nexa AI") + (m.ts ? " · " + new Date(m.ts).toLocaleString() : "") + "]\n" + m.text).join("\n\n");
+  return head + "\n\n" + c.messages.map(m => "[" + (m.role === "user" ? (profileName || t("you")) : "Nexa AI") + (m.ts ? " · " + new Date(m.ts).toLocaleString() : "") + "]\n" + m.text + (m.atts && m.atts.length ? "\n[" + m.atts.map(a => a.name).join(", ") + "]" : "")).join("\n\n");
 }
 async function saveText(filename, data) {
   try { const dl = (window.claude && typeof claude.use === "function") ? await claude.use("downloads") : null; if (dl) { await dl.save({filename,data}); return "saved"; } } catch (err) { if (err && err.code === "declined") return "declined"; }
@@ -1829,6 +1984,143 @@ document.addEventListener("keydown", e => {
   const tag = (document.activeElement && document.activeElement.tagName) || "";
   if ((e.ctrlKey || e.metaKey) && (e.key === "k" || e.key === "K")) { e.preventDefault(); $("#newChatBtn").click(); }
   else if (e.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(tag)) { e.preventDefault(); switchPage("chat"); promptInput.focus(); }
+});
+
+/* ---------- iOS-style zoom from the tapped spot ---------- */
+let lastPtr = {x:0,y:0,t:-9999};
+document.addEventListener("pointerdown", e => { lastPtr = {x:e.clientX,y:e.clientY,t:performance.now()}; }, true);
+function noMotion() { return document.body.classList.contains("no-animations") || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches); }
+function playLaunch(el) {
+  if (!el || noMotion()) return;
+  const r = el.getBoundingClientRect();
+  let x = 50, y = 50;
+  if (performance.now() - lastPtr.t < 900 && r.width && r.height) { x = (lastPtr.x - r.left) / r.width * 100; y = (lastPtr.y - r.top) / r.height * 100; }
+  el.style.setProperty("--ox",x.toFixed(1) + "%"); el.style.setProperty("--oy",y.toFixed(1) + "%");
+  el.classList.remove("launch"); void el.offsetWidth; el.classList.add("launch");
+  const done = () => el.classList.remove("launch");
+  el.addEventListener("animationend", ev => { if (ev.target === el && ev.animationName === "launchIn") done(); });
+  setTimeout(done,1500);
+}
+
+/* ---------- attachments: files, photos, camera, sketch ---------- */
+const MAX_ATT = 6, MAX_BYTES = 15 * 1024 * 1024;
+const TEXT_EXT = /\.(txt|md|markdown|csv|tsv|json|xml|html?|css|js|jsx|ts|tsx|py|java|c|cpp|h|cs|go|rs|rb|php|sh|sql|ya?ml|toml|ini|log|svg)$/i;
+const FILE_ICON = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>';
+let attachments = [];
+const uid = () => Math.random().toString(36).slice(2,9);
+const blobToDataURL = blob => new Promise((res,rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(blob); });
+const loadImg = blob => new Promise((res,rej) => { const u = URL.createObjectURL(blob), i = new Image(); i.onload = () => res({img:i,url:u}); i.onerror = () => { URL.revokeObjectURL(u); rej(new Error("img")); }; i.src = u; });
+async function addImage(file, name) {
+  const {img,url} = await loadImg(file);
+  const scale = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+  const w = Math.max(1,Math.round(img.naturalWidth * scale)), h = Math.max(1,Math.round(img.naturalHeight * scale));
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const g = c.getContext("2d"), keepPng = file.type === "image/png" && /^sketch/i.test(name);
+  if (!keepPng) { g.fillStyle = "#fff"; g.fillRect(0,0,w,h); }
+  g.drawImage(img,0,0,w,h);
+  const blob = await new Promise(r => c.toBlob(r, keepPng ? "image/png" : "image/jpeg", .88));
+  const k = Math.min(1, 120 / Math.max(w,h)), tc = document.createElement("canvas");
+  tc.width = Math.max(1,Math.round(w * k)); tc.height = Math.max(1,Math.round(h * k));
+  tc.getContext("2d").drawImage(c,0,0,tc.width,tc.height);
+  URL.revokeObjectURL(url);
+  attachments.push({id:uid(),kind:"image",name,size:blob.size,blob,thumb:tc.toDataURL("image/jpeg",.72)});
+}
+async function addFiles(list) {
+  for (const f of [...list]) {
+    if (attachments.length >= MAX_ATT) { showToast(t("tooMany")); break; }
+    if (f.size > MAX_BYTES) { showToast(t("tooBig")); continue; }
+    try {
+      if (f.type.startsWith("image/")) await addImage(f, f.name || "photo.jpg");
+      else if (f.type.startsWith("text/") || f.type === "application/json" || TEXT_EXT.test(f.name)) {
+        const raw = await f.text();
+        attachments.push({id:uid(),kind:"text",name:f.name,size:f.size,text:raw.length > 60000 ? raw.slice(0,60000) + "\n…(truncated)" : raw});
+      } else { attachments.push({id:uid(),kind:"file",name:f.name,size:f.size}); showToast(t("cantReadFile")); }
+    } catch { showToast(t("exportFail")); }
+  }
+  renderTray();
+}
+function renderTray() {
+  const tray = $("#attachTray"); if (!tray) return;
+  tray.replaceChildren();
+  attachments.forEach(a => {
+    const el = document.createElement("div"); el.className = "att " + (a.kind === "image" ? "att-img" : "att-file");
+    if (a.kind === "image") { const im = document.createElement("img"); im.src = a.thumb; im.alt = a.name; el.appendChild(im); }
+    else { const ic = document.createElement("span"); ic.className = "ico"; ic.innerHTML = FILE_ICON; const nm = document.createElement("span"); nm.className = "nm"; nm.textContent = a.name; el.append(ic,nm); }
+    const x = document.createElement("button"); x.type = "button"; x.className = "att-x"; x.dataset.id = a.id; x.setAttribute("aria-label",t("removeAtt")); x.textContent = "×";
+    el.appendChild(x); tray.appendChild(el);
+  });
+  tray.hidden = !attachments.length;
+}
+function buildAttsView(atts) {
+  const box = document.createElement("div"); box.className = "msg-atts";
+  atts.forEach(a => {
+    if (a.kind === "image" && a.thumb) { const im = document.createElement("img"); im.className = "msg-att-img"; im.src = a.thumb; im.alt = a.name; box.appendChild(im); }
+    else { const c = document.createElement("div"); c.className = "att-chip"; const ic = document.createElement("span"); ic.className = "ico"; ic.innerHTML = FILE_ICON; const nm = document.createElement("span"); nm.className = "nm"; nm.textContent = a.name; c.append(ic,nm); box.appendChild(c); }
+  });
+  return box;
+}
+$("#attachTray")?.addEventListener("click", e => { const b = e.target.closest(".att-x"); if (!b) return; attachments = attachments.filter(a => a.id !== b.dataset.id); renderTray(); });
+
+const plusBtn = $("#plusBtn"), attachMenu = $("#attachMenu");
+function openAttachMenu() { attachMenu.hidden = false; attachMenu.classList.remove("closing"); plusBtn.setAttribute("aria-expanded","true"); }
+function closeAttachMenu() {
+  if (!attachMenu || attachMenu.hidden) return;
+  plusBtn.setAttribute("aria-expanded","false");
+  if (noMotion()) { attachMenu.hidden = true; return; }
+  attachMenu.classList.add("closing");
+  setTimeout(() => { attachMenu.hidden = true; attachMenu.classList.remove("closing"); }, 170);
+}
+plusBtn?.addEventListener("click", e => { e.stopPropagation(); (attachMenu.hidden || attachMenu.classList.contains("closing")) ? openAttachMenu() : closeAttachMenu(); });
+document.addEventListener("click", e => { if (attachMenu && !attachMenu.hidden && !e.target.closest(".attach-wrap")) closeAttachMenu(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeAttachMenu(); });
+attachMenu?.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b) return;
+  const act = b.dataset.act; closeAttachMenu();
+  if (act === "files") $("#fileInput").click(); else if (act === "photos") $("#photoInput").click();
+  else if (act === "camera") $("#cameraInput").click(); else if (act === "draw") openSketch();
+});
+["fileInput","photoInput","cameraInput"].forEach(id => { const inp = $("#" + id); inp?.addEventListener("change", async () => { const files = [...inp.files]; inp.value = ""; await addFiles(files); }); });
+promptInput.addEventListener("paste", e => { const fs = [...((e.clipboardData && e.clipboardData.files) || [])].filter(f => f.type.startsWith("image/")); if (fs.length) { e.preventDefault(); addFiles(fs); } });
+let dragDepth = 0; const mainEl = $(".main"), dropEl = $("#dropOverlay");
+const hasFiles = e => e.dataTransfer && [...(e.dataTransfer.types || [])].includes("Files");
+mainEl.addEventListener("dragenter", e => { if (!hasFiles(e)) return; e.preventDefault(); dragDepth++; dropEl.hidden = false; });
+mainEl.addEventListener("dragover", e => { if (hasFiles(e)) e.preventDefault(); });
+mainEl.addEventListener("dragleave", e => { if (!hasFiles(e)) return; dragDepth = Math.max(0,dragDepth - 1); if (!dragDepth) dropEl.hidden = true; });
+mainEl.addEventListener("drop", e => { if (!hasFiles(e)) return; e.preventDefault(); dragDepth = 0; dropEl.hidden = true; switchPage("chat"); addFiles(e.dataTransfer.files); });
+
+/* ---------- sketch pad ---------- */
+const sketchOverlay = $("#sketchOverlay"), sketchCanvas = $("#sketchCanvas");
+const sk = {strokes:[],cur:null,color:"#1d1d2b",size:7};
+function skRedraw() {
+  const g = sketchCanvas.getContext("2d");
+  g.fillStyle = "#fff"; g.fillRect(0,0,sketchCanvas.width,sketchCanvas.height);
+  g.lineCap = "round"; g.lineJoin = "round";
+  [...sk.strokes, ...(sk.cur ? [sk.cur] : [])].forEach(st => {
+    g.strokeStyle = st.color; g.lineWidth = st.size; g.beginPath();
+    st.pts.forEach((p,i) => i ? g.lineTo(p[0],p[1]) : g.moveTo(p[0],p[1]));
+    if (st.pts.length === 1) g.lineTo(st.pts[0][0] + .01,st.pts[0][1]);
+    g.stroke();
+  });
+}
+function skPoint(e) { const r = sketchCanvas.getBoundingClientRect(); return [(e.clientX - r.left) * sketchCanvas.width / r.width,(e.clientY - r.top) * sketchCanvas.height / r.height]; }
+sketchCanvas.addEventListener("pointerdown", e => { e.preventDefault(); try { sketchCanvas.setPointerCapture(e.pointerId); } catch {} sk.cur = {color:sk.color,size:sk.size * (sketchCanvas.width / sketchCanvas.getBoundingClientRect().width),pts:[skPoint(e)]}; skRedraw(); });
+sketchCanvas.addEventListener("pointermove", e => { if (!sk.cur) return; sk.cur.pts.push(skPoint(e)); skRedraw(); });
+const skEnd = () => { if (sk.cur) { sk.strokes.push(sk.cur); sk.cur = null; skRedraw(); } };
+sketchCanvas.addEventListener("pointerup", skEnd); sketchCanvas.addEventListener("pointercancel", skEnd);
+$("#sketchColors")?.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; sk.color = b.dataset.c; $$("#sketchColors button").forEach(x => x.setAttribute("aria-pressed",String(x === b))); });
+$("#sketchSize")?.addEventListener("input", e => { sk.size = +e.target.value; });
+$("#sketchUndo")?.addEventListener("click", () => { sk.strokes.pop(); skRedraw(); });
+$("#sketchClear")?.addEventListener("click", () => { sk.strokes = []; skRedraw(); });
+function openSketch() { sk.strokes = []; sk.cur = null; skRedraw(); sketchOverlay.classList.add("open"); sketchOverlay.setAttribute("aria-hidden","false"); }
+function closeSketch() { sketchOverlay.classList.remove("open"); sketchOverlay.setAttribute("aria-hidden","true"); }
+$("#sketchCancel")?.addEventListener("click", closeSketch);
+sketchOverlay?.addEventListener("click", e => { if (e.target === sketchOverlay) closeSketch(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeSketch(); });
+$("#sketchAttach")?.addEventListener("click", () => {
+  if (!sk.strokes.length) { showToast(t("sketchEmpty")); return; }
+  if (attachments.length >= MAX_ATT) { showToast(t("tooMany")); return; }
+  closeSketch(); switchPage("chat");
+  sketchCanvas.toBlob(async blob => { if (!blob) { showToast(t("exportFail")); return; } await addFiles([new File([blob],"sketch.png",{type:"image/png"})]); promptInput.focus(); },"image/png");
 });
 
 applyLook();
