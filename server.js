@@ -5,11 +5,17 @@ const express = require("express");
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
-const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models";
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const FREE_MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
+const PLUS_MODEL = process.env.GEMINI_PLUS_MODEL || "gemini-3.8-flash";
+const PRO_MODEL = "gemini-4-argon";
+const CODE_MODE_LIMITS = Object.freeze({ free: 20, plus: 50, pro: Infinity });
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "30mb" }));
 app.use(express.static(__dirname));
 
 // Nexa AI սերվերի կարգավիճակ
@@ -17,39 +23,50 @@ app.get("/health", (req, res) => {
   res.json({
     ok: true,
     app: "Nexa AI",
-    provider: "Groq"
+    provider: "Gemini"
   });
 });
 
 // API կարգավիճակ
 app.get("/api/status", (req, res) => {
   res.json({
-    ok: Boolean(GROQ_API_KEY),
+    ok: Boolean(GEMINI_API_KEY),
     app: "Nexa AI",
-    provider: "Groq",
-    model: MODEL,
-    error: GROQ_API_KEY
+    provider: "Gemini",
+    model: FREE_MODEL,
+    models: { free: FREE_MODEL, plus: PLUS_MODEL, pro: PRO_MODEL },
+    error: GEMINI_API_KEY
       ? null
-      : ".env ֆայլում GROQ_API_KEY-ը բացակայում է։"
+      : ".env ֆայլում GEMINI_API_KEY-ը բացակայում է։"
   });
 });
 
 // Հիմնական AI չատ
 app.post(["/chat", "/api/chat"], async (req, res) => {
   try {
-    if (!GROQ_API_KEY) {
+    const body = req.body || {};
+    const requestedPlan = body.plan;
+    const codeMode = body.codeMode === true;
+    if (requestedPlan !== "free" && requestedPlan !== "plus" && requestedPlan !== "pro") {
+      return res.status(400).json({ error: "Պլանի տվյալը բացակայում է։ Թարմացրու էջը և փորձիր կրկին։" });
+    }
+    const model = requestedPlan === "pro" ? PRO_MODEL : requestedPlan === "plus" ? PLUS_MODEL : FREE_MODEL;
+    const thinkingLevel = requestedPlan === "pro" ? "high" : requestedPlan === "plus" ? "low" : "minimal";
+
+
+    if (!GEMINI_API_KEY) {
       return res.status(503).json({
-        error: "Groq API key-ը բացակայում է։ Ստուգիր .env ֆայլը։"
+        error: "Gemini API key-ը բացակայում է։ Ստուգիր .env ֆայլը։"
       });
     }
 
-    const body = req.body || {};
-
-    const messages = Array.isArray(body.messages)
-      ? body.messages
-      : typeof body.message === "string"
-        ? [{ role: "user", content: body.message }]
-        : [];
+    const messages = Array.isArray(body.history)
+      ? body.history
+      : Array.isArray(body.messages)
+        ? body.messages
+        : typeof body.message === "string"
+          ? [{ role: "user", content: body.message }]
+          : [];
 
     const cleanMessages = messages
       .filter(
@@ -59,7 +76,7 @@ app.post(["/chat", "/api/chat"], async (req, res) => {
           typeof message.content === "string" &&
           message.content.trim().length > 0
       )
-      .slice(-40)
+      .slice(-20)
       .map((message) => ({
         role: message.role,
         content: message.content.trim()
@@ -70,6 +87,53 @@ app.post(["/chat", "/api/chat"], async (req, res) => {
         error: "Հաղորդագրությունը դատարկ է։ Գրիր հարցդ ու փորձիր կրկին։"
       });
     }
+
+    if (codeMode) {
+      const codeModeLimit = CODE_MODE_LIMITS[requestedPlan];
+      const accessToken = (req.get("authorization") || "").replace(/^Bearer\s+/i, "");
+      if (!accessToken) {
+        return res.status(401).json({ error: "Code Mode-ի համար մուտք գործիր Supabase հաշվով։" });
+      }
+      if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+        return res.status(503).json({ error: "Code Mode-ի օրական սահմանը դեռ կապակցված չէ Supabase-ին։" });
+      }
+
+      const authResponse = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+        headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${accessToken}` }
+      });
+      if (!authResponse.ok) {
+        return res.status(401).json({ error: "Մուտքը վավեր չէ։ Նորից մուտք գործիր հաշիվ։" });
+      }
+      const authUser = await authResponse.json().catch(() => ({}));
+      if (!authUser.id) {
+        return res.status(401).json({ error: "Չհաջողվեց հաստատել օգտատիրոջ հաշիվը։" });
+      }
+
+      if (Number.isFinite(codeModeLimit)) {
+        if (!SUPABASE_SERVICE_ROLE_KEY) {
+          return res.status(503).json({ error: "Code Mode-ի օրական սահմանը դեռ կապակցված չէ Supabase-ին։" });
+        }
+        const quotaResponse = await fetch(`${SUPABASE_URL}/rest/v1/rpc/consume_nexa_code_mode_daily`, {
+          method: "POST",
+          headers: {
+            apikey: SUPABASE_SERVICE_ROLE_KEY,
+            Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ p_user_id: authUser.id, p_limit: codeModeLimit })
+        });
+        if (!quotaResponse.ok) {
+          console.error("Nexa AI Code Mode quota error:", quotaResponse.status, await quotaResponse.text().catch(() => ""));
+          return res.status(503).json({ error: "Չհաջողվեց ստուգել Code Mode-ի օրական սահմանը։ Ստուգիր Supabase-ի կարգավորումները։" });
+        }
+        const quotaValue = await quotaResponse.json().catch(() => null);
+        const usedToday = Number(Array.isArray(quotaValue) ? quotaValue[0] : quotaValue);
+        if (!Number.isFinite(usedToday) || usedToday < 1) {
+          return res.status(429).json({ error: "Այսօրվա Code Mode սահմանաչափն օգտագործված է։ Փորձիր կրկին վաղը։" });
+        }
+      }
+    }
+
 
     const systemMessage = {
       role: "system",
@@ -95,15 +159,15 @@ app.post(["/chat", "/api/chat"], async (req, res) => {
 - Մի՛ հորինիր ստեղծողի կենսագրության, աշխատանքի կամ նախագծի պատմության մասին տեղեկություններ։
 
 ՏԵԽՆՈԼՈԳԻԱ
-- Այս սերվերի տարբերակում AI հարցումներն ուղարկվում են Groq API-ին։
-- Օգտագործվող մոդելը որոշվում է GROQ_MODEL միջավայրի փոփոխականով։
+- Այս սերվերի տարբերակում AI հարցումներն ուղարկվում են Gemini API-ին։
+- Օգտագործվող մոդելը որոշվում է GEMINI_MODEL միջավայրի փոփոխականով։
 - Եթե հարցնեն՝ ինչ տեխնոլոգիայով ես աշխատում, պատասխանիր այս տեղեկությունների հիման վրա։
 - Մի՛ պնդիր, որ մոդելը Nexa-ի սեփական մոդելն է, եթե դա հաստատված չէ։
 
 ՎԱՐՔԱԳԻԾ
 - Նախ հասկացիր հարցի իմաստը, հետո պատասխանիր։
 - Տուր հստակ, բնական և օգտակար պատասխաններ։
-- Պարզ հարցերին պատասխանիր կարճ, բարդ հարցերին՝ մանրամասն։
+- Պարզ հարցերին պատասխանիր ուղիղ՝ 1-3 նախադասությամբ։ Մանրամասնիր միայն բարդ հարցերի կամ օգտատիրոջ խնդրանքի դեպքում։
 - Եթե վստահ չես, ազնվորեն նշիր դա։
 - Մի՛ հորինիր փաստեր, աղբյուրներ կամ կատարված գործողություններ։
 - Եթե հարցը երկիմաստ է, անհրաժեշտության դեպքում խնդրիր պարզաբանում։
@@ -112,80 +176,163 @@ app.post(["/chat", "/api/chat"], async (req, res) => {
 - Մի՛ բացահայտիր API բանալիներ կամ գաղտնի տվյալներ։`
     };
 
-    const response = await fetch(GROQ_API_URL, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${GROQ_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [systemMessage, ...cleanMessages],
-        temperature: 0.4,
-        max_tokens: 2048,
-        stream: false
-      })
+    if (codeMode) systemMessage.content += "\n\nYou are in Code Mode. Focus on writing correct, complete, practical code. Keep explanations brief and include setup steps only when necessary.";
+
+    const streamController = new AbortController();
+    res.on("close", () => {
+      if (!res.writableEnded) streamController.abort();
     });
 
-    const data = await response.json().catch(() => ({}));
+    const lastUserIndex = cleanMessages.map((message) => message.role).lastIndexOf("user");
+    const imageParts = (Array.isArray(body.attachments) ? body.attachments : [])
+      .filter((attachment) => attachment && attachment.kind === "image" && typeof attachment.dataUrl === "string")
+      .map((attachment) => {
+        const match = attachment.dataUrl.match(/^data:(image\/(?:jpeg|png|webp|gif));base64,([A-Za-z0-9+/=\r\n]+)$/i);
+        if (!match || match[2].length > 12 * 1024 * 1024) return null;
+        return { inlineData: { mimeType: match[1].toLowerCase(), data: match[2].replace(/\s/g, "") } };
+      })
+      .filter(Boolean)
+      .slice(0, 5);
+    const contents = cleanMessages.map((message, index) => ({
+      role: message.role === "assistant" ? "model" : "user",
+      parts: [{ text: message.content }, ...(message.role === "user" && index === lastUserIndex ? imageParts : [])]
+    }));
+
+    let response;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      response = await fetch(`${GEMINI_API_URL}/${model}:streamGenerateContent?alt=sse`, {
+        method: "POST",
+        headers: {
+          "x-goog-api-key": GEMINI_API_KEY,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [{ text: systemMessage.content }]
+          },
+          contents,
+          generationConfig: {
+            ...(requestedPlan === "pro" ? {} : { temperature: 0.4 }),
+            maxOutputTokens: requestedPlan === "pro" ? 8192 : codeMode ? 4096 : requestedPlan === "plus" ? 4096 : 1024,
+            thinkingConfig: {
+              thinkingLevel
+            }
+          }
+        }),
+        signal: streamController.signal
+      });
+
+      if (response.status !== 503 || attempt === 2) break;
+      await response.body?.cancel().catch(() => {});
+      const backoffMs = 500 * (2 ** attempt) + Math.floor(Math.random() * 300);
+      await new Promise((resolve) => setTimeout(resolve, backoffMs));
+    }
 
     if (!response.ok) {
-      console.error(
-        "Nexa AI Groq API error:",
-        response.status,
-        data.error?.message || "Unknown API error"
-      );
+      const data = await response.json().catch(() => ({}));
+      const apiError = data.error?.message || "Unknown API error";
+      console.error("Nexa AI Gemini API error:", response.status, apiError);
 
       if (response.status === 401 || response.status === 403) {
         return res.status(502).json({
-          error: "Groq API key-ը սխալ է կամ հասանելիության խնդիր կա։ Ստուգիր Groq Console-ը։"
+          error: "Gemini API key-ը սխալ է կամ հասանելիության խնդիր կա։ Ստուգիր Google AI Studio-ն։"
         });
       }
 
       if (response.status === 429) {
         return res.status(429).json({
-          error: "Groq-ի հարցումների սահմանաչափը լրացել է։ Սպասիր, հետո փորձիր կրկին։"
+          error: "Gemini-ի հարցումների սահմանաչափը լրացել է։ Սպասիր, հետո փորձիր կրկին։"
+        });
+      }
+
+      if (response.status === 503) {
+        return res.status(503).json({
+          error: data.error?.message
+            ? `Gemini-ը ժամանակավորապես անհասանելի է (503)։ ${data.error.message}`
+            : "Gemini-ը ժամանակավորապես ծանրաբեռնված է (503)։ Մի փոքր սպասիր ու նորից փորձիր։"
         });
       }
 
       return res.status(502).json({
         error: data.error?.message
-          ? `Groq-ի սխալը՝ ${data.error.message}`
-          : "Groq-ը չկարողացավ մշակել հարցումը։ Փորձիր կրկին։"
+          ? `Gemini-ի սխալը՝ ${data.error.message}`
+          : "Gemini-ը չկարողացավ մշակել հարցումը։ Փորձիր կրկին։"
       });
     }
 
-    const reply = data.choices?.[0]?.message?.content;
-
-    if (typeof reply !== "string" || !reply.trim()) {
+    if (!response.body) {
       return res.status(502).json({
-        error: "Nexa AI-ն դատարկ պատասխան է վերադարձրել։ Փորձիր կրկին։"
+        error: "Gemini-ը հոսքային պատասխան չի վերադարձրել։ Փորձիր կրկին։"
       });
     }
 
-    return res.json({
-      reply,
-      choices: [
-        {
-          message: {
-            role: "assistant",
-            content: reply
-          }
+    res.status(200);
+    res.setHeader("Content-Type", "application/x-ndjson; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache, no-transform");
+    res.setHeader("X-Accel-Buffering", "no");
+    res.flushHeaders?.();
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let eventBuffer = "";
+
+    const forwardEvent = (eventText) => {
+      const data = eventText
+        .split(/\r?\n/)
+        .filter((line) => line.startsWith("data:"))
+        .map((line) => line.slice(5).trim())
+        .join("\n");
+
+      if (!data || data === "[DONE]") return;
+
+      try {
+        const event = JSON.parse(data);
+        if (event.error) {
+          res.write(JSON.stringify({ error: event.error.message || "Gemini stream error" }) + "\n");
+          return;
         }
-      ]
-    });
+
+        const text = event.candidates?.[0]?.content?.parts
+          ?.map((part) => part.text || "")
+          .join("");
+        if (text) res.write(JSON.stringify({ text }) + "\n");
+      } catch (error) {
+        console.error("Nexa AI Gemini stream parsing error:", error.message);
+      }
+    };
+
+    let streamDone = false;
+    while (!streamDone) {
+      const chunk = await reader.read();
+      streamDone = chunk.done;
+      eventBuffer += decoder.decode(chunk.value || new Uint8Array(), { stream: !streamDone });
+      const events = eventBuffer.split(/\r?\n\r?\n/);
+      eventBuffer = events.pop() || "";
+      events.forEach(forwardEvent);
+    }
+
+    if (eventBuffer.trim()) forwardEvent(eventBuffer);
+    res.end();
+    return;
   } catch (error) {
     console.error("Nexa AI server error:", error.message);
 
+    if (res.headersSent) {
+      if (!res.writableEnded) res.end();
+      return;
+    }
+
     return res.status(503).json({
-      error: "Չհաջողվեց միանալ Groq-ին։ Ստուգիր ինտերնետ կապը և փորձիր կրկին։"
+      error: "Չհաջողվեց միանալ Gemini-ին։ Ստուգիր ինտերնետ կապը և փորձիր կրկին։"
     });
   }
 });
 
 app.listen(PORT, () => {
   console.log(`Nexa AI: http://localhost:${PORT}`);
-  console.log("AI provider: Groq");
-  console.log(`AI model: ${MODEL}`);
-  console.log(`API key configured: ${Boolean(GROQ_API_KEY)}`);
+  console.log("AI provider: Gemini");
+  console.log(`Free model: ${FREE_MODEL}`);
+  console.log(`Plus model: ${PLUS_MODEL}`);
+  console.log(`Pro model: ${PRO_MODEL}`);
+  console.log(`API key configured: ${Boolean(GEMINI_API_KEY)}`);
 });
