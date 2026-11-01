@@ -41,7 +41,7 @@ footer{text-align:center;color:var(--m);font-size:13px;padding:0 22px 40px}
 .r{opacity:0;transform:translateY(30px) scale(.97);transition:opacity .9s,transform .9s var(--sp)}.r.v{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.r{opacity:1;transform:none}}
 @media(max-width:560px){.lang button{padding:7px 8px}nav b span{display:none}}
-</style></head><body>
+</style><style>h1{line-height:1.25!important;padding:.1em .04em .14em}</style></head><body>
 <div class="bgd"></div>
 <nav class="gl"><b><i></i><span>Nexa AI</span></b><div class="lang" id="lang"><button data-l="hy">ՀՅ</button><button data-l="en">EN</button><button data-l="ru">RU</button></div><a class="btn s" href="index.html" data-go data-t="start"></a></nav>
 <header class="hero"><div class="logo"></div><h1 data-t="h1"></h1><p class="sub" data-t="sub"></p>
@@ -119,7 +119,7 @@ svg{flex:none}
 .hd{position:fixed;z-index:20;top:0;left:322px;right:0;height:64px;padding:max(10px,env(safe-area-inset-top)) 18px 0;display:flex;align-items:center;gap:10px}
 .ttl{flex:1;min-width:0;font-weight:600;font-size:15px;color:var(--m);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .gb{height:44px;min-width:44px;padding:0 14px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font-weight:600;font-size:14px;transition:transform .4s var(--sp)}.gb:hover{transform:scale(1.07)}.gb:active{transform:scale(.92)}
-#bM{display:none}.hd{background:linear-gradient(rgba(0,0,0,.92) 40%,transparent)}@media(min-width:900px){#bL2,#bN2{display:none}}
+#bM{display:none}.hd{background:linear-gradient(rgba(0,0,0,.92) 40%,transparent)}@media(min-width:900px){#bL2{display:none}}
 /* ---- main ---- */
 #main{position:fixed;z-index:5;inset:0 0 0 322px}
 .hero{position:absolute;inset:0 0 150px 0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 22px 0;transition:opacity .5s,transform .7s var(--io)}
@@ -143,6 +143,7 @@ h1{font-size:clamp(32px,5.4vw,60px);letter-spacing:-.045em;line-height:1.05;font
 .tx{min-width:0;flex:1;padding:18px 22px;border-radius:26px 26px 26px 6px}.tx p{margin:0 0 12px}.tx p:last-of-type{margin:0}
 .tx code.i{padding:2px 7px;border-radius:8px;background:rgba(255,255,255,.12);font:14px ui-monospace,Menlo,monospace}
 .cur::after{content:"";display:inline-block;width:8px;height:8px;margin-left:5px;border-radius:50%;background:#fff;animation:bl .9s ease-in-out infinite}@keyframes bl{50%{opacity:.2;transform:scale(.6)}}
+.typing{display:inline-flex;align-items:center;gap:5px;min-height:22px;padding:3px 1px}.typing span{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.35;animation:tdot 1s infinite ease-in-out}.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}@keyframes tdot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
 .cb{margin:12px 0;border-radius:22px;overflow:hidden;background:rgba(8,8,12,.88);border:1px solid var(--b);box-shadow:var(--e)}
 .ch{display:flex;justify-content:space-between;align-items:center;padding:8px 8px 8px 16px;background:rgba(255,255,255,.06);font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--m)}
 .cp{padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid var(--b);color:#fff;font-size:12px;font-weight:700;text-transform:none;letter-spacing:0;transition:transform .3s var(--sp)}.cp:active{transform:scale(.92)}.cp.ok{background:#fff;color:#000}
@@ -280,7 +281,91 @@ body.noanim *,body.noanim *::before,body.noanim *::after{animation:none!importan
 .cd,.cn{height:50px;border-radius:999px;font-size:16px;font-weight:700;transition:transform .3s}
 .cd{background:#ff453a;color:#fff}.cn{background:rgba(255,255,255,.12);color:#fff}.cd:active,.cn:active{transform:scale(.96)}
 </style>
-</head><body>
+<style>
+.engs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0 6px}
+.ech{height:38px;padding:0 16px;border-radius:999px;font-size:13.5px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);border:1px solid var(--b);transition:transform .3s}
+.ech:active{transform:scale(.94)}.ech.on{background:#fff;color:#000}.ech.nvb{background:#0a84ff;border-color:transparent}
+body.ws #bN2{visibility:hidden}
+.nvw{position:fixed;inset:0;z-index:40;background:#000;opacity:0;visibility:hidden;transform:scale(.97);transition:opacity .45s,transform .6s var(--sp),visibility 0s .45s}
+.nvw.on{opacity:1;visibility:visible;transform:none;transition:opacity .45s,transform .6s var(--sp),visibility 0s}
+#nvmap{position:absolute;inset:0;isolation:isolate;background:#f4f6f8;touch-action:none;overscroll-behavior:contain;cursor:grab}#nvmap:active{cursor:grabbing}
+#nvmap .leaflet-control-attribution{margin:0 6px 70px 0!important;padding:2px 5px;border-radius:6px;background:rgba(255,255,255,.58);color:#555;font-size:7px;line-height:1.25;box-shadow:none;opacity:.72}#nvmap .leaflet-control-attribution:hover{opacity:1}#nvmap .leaflet-control-attribution a{color:#222}#nvmap .leaflet-control-attribution a[href*="leafletjs.com"]{display:none}
+#nvmap .leaflet-tile-pane{filter:none}
+.nvtop{position:absolute;z-index:5;left:10px;right:10px;top:max(10px,env(safe-area-inset-top));max-width:520px;padding:10px 9px 8px;border-radius:25px;display:flex;flex-direction:column;gap:5px}
+.nvrow{display:flex;align-items:center;padding:0 8px}.nvrow b{flex:1;font-size:17px}
+.nvweather{position:relative;display:flex;flex-direction:column;gap:5px;width:100%;margin-top:2px;padding:8px 12px;border:1px solid rgba(159,190,228,.16);border-radius:20px;background:linear-gradient(115deg,rgba(13,28,47,.82),rgba(22,28,41,.78));box-shadow:inset 0 1px 0 rgba(255,255,255,.08);color:#f5f7fb}
+.nvwh{display:flex;align-items:center;gap:8px;color:#b8c5d5;font-size:10px;font-weight:750;letter-spacing:.04em;text-transform:uppercase}
+.nvwh>span:first-child{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nvwtime{display:flex;align-items:center;gap:4px;color:#e5edf8;font-weight:650;letter-spacing:0}.nvwtime i{font-style:normal}
+.nvwr{flex:none;width:24px;height:24px;margin:-3px -4px -3px 1px;border-radius:50%;background:rgba(255,255,255,.1);color:#eaf1fa;font-size:15px;line-height:1;transition:transform .3s}.nvwr:active{transform:rotate(90deg)}
+.nvwbody{display:flex;align-items:center;gap:8px;min-width:0}.nvwi{font-size:27px;line-height:1;filter:drop-shadow(0 3px 8px rgba(55,160,255,.28))}.nvwtemps{display:flex;align-items:baseline;gap:7px;min-width:0}.nvwtemps b{font-size:27px;line-height:1;font-weight:750;letter-spacing:-1.2px}.nvwtemps small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#c7d3e2;font-size:11px}.nvwfeels{margin-left:auto;flex:none;color:#aab8ca;font-size:10px;white-space:nowrap}
+.nvwattrib{text-align:right;font-size:8px;line-height:1}.nvwattrib a{color:#8190a4;text-decoration:none}.nvwattrib a:hover{color:#dbe8f8}
+.nvf{display:flex;align-items:center;gap:8px;height:42px;padding:0 6px 0 8px;border-radius:999px;background:rgba(255,255,255,.1)}
+.nvf i{font-style:normal;flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:#fff;color:#000}.nvf i.pb{background:#ff453a;color:#fff}
+.nvf input{flex:1;min-width:0;height:100%;background:none;border:0;outline:0;color:#fff;font:inherit;font-size:14.5px}.nvf .ib{width:34px;height:34px}
+.nvs{display:flex;flex-direction:column}
+.nvo{text-align:left;padding:9px 12px;border-radius:14px;font-size:13.5px;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nvo:hover{background:rgba(255,255,255,.12)}
+.nvmd{display:flex;gap:6px}.nvmd button{flex:1;height:36px;border-radius:999px;font-size:13px;font-weight:700;background:rgba(255,255,255,.1);color:#fff}.nvmd button.on{background:#fff;color:#000}
+.nvlegend{display:flex;align-items:center;justify-content:center;gap:7px;min-height:17px;color:#19212b}.nvlegend span{display:inline-flex;align-items:center;justify-content:center;width:30px;height:24px;border:1px solid rgba(20,35,52,.13);border-radius:999px;background:#fff;color:#17202b;box-shadow:0 1px 3px rgba(0,0,0,.12)}.nvlegend i{font-style:normal;font-size:13px;line-height:1}.nvlegend b{display:none}.nvpoi{display:grid;place-items:center;width:32px;height:32px;border:2px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.38);font-size:17px}.nvpoi.signal{background:#e5484d}.nvpoi.camera{background:#276ef1}
+.nvbot{position:absolute;z-index:5;left:10px;right:10px;bottom:calc(max(8px,env(safe-area-inset-bottom)) + 66px);max-width:520px;max-height:42vh;padding:16px;border-radius:32px;display:none;flex-direction:column;gap:12px}
+.nvbot.on{display:flex;animation:up .55s var(--sp) both}
+.nvsum{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.nvsum b{font-size:30px;letter-spacing:-.5px}.nvsum span{color:var(--m);font-size:15px}
+.nvlv{display:none;align-items:center;justify-content:space-between;gap:6px}
+.nvlv div{display:flex;flex-direction:column;align-items:center;flex:1}.nvlv b{font-size:19px;white-space:nowrap}.nvlv small{color:var(--m);font-size:11.5px;font-weight:600}
+.nvlv .spd{flex:none;width:64px;height:64px;border-radius:50%;justify-content:center;border:3px solid rgba(255,255,255,.7);background:rgba(255,255,255,.08)}.nvlv .spd b{font-size:20px;line-height:1}.nvlv .spd small{font-size:9.5px}
+body.nvlive .nvlv{display:flex}body.nvlive .nvst,body.nvlive .nvsum,body.nvlive #nvg1,body.nvlive #nvg2{display:none}
+.nvact{display:flex;gap:8px;flex-wrap:wrap}.nvact button,.nvact a{height:42px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;font-weight:700;font-size:14px;background:rgba(255,255,255,.12);color:#fff;text-decoration:none}
+.nvact .go{background:#30d158;color:#000;flex:1;justify-content:center}.nvact .go.on{background:#ff453a;color:#fff}
+.nvst{overflow-y:auto;display:flex;flex-direction:column;gap:2px;overscroll-behavior:contain}
+.nvst div{display:flex;gap:12px;align-items:center;padding:9px 4px;font-size:14px;border-top:1px solid rgba(255,255,255,.08)}.nvst div em{font-style:normal;flex:none;width:30px;text-align:center;font-size:20px}.nvst div small{margin-left:auto;color:var(--m);white-space:nowrap}
+.nvbn{position:absolute;z-index:6;left:10px;right:10px;top:max(10px,env(safe-area-inset-top));max-width:520px;padding:14px 18px;border-radius:30px;display:none;align-items:center;gap:16px;background:linear-gradient(135deg,rgba(13,111,255,.97),rgba(0,83,222,.95));box-shadow:0 12px 32px rgba(0,70,180,.32),inset 0 1px 0 rgba(255,255,255,.3);color:#fff}
+.nvbn.on{display:flex;animation:up .5s var(--sp) both}.nvbn em{font-style:normal;flex:none;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-size:36px;background:#fff;color:#0a58c8}
+.nvbm{display:flex;flex-direction:column;min-width:0}.nvbm b{font-size:30px;line-height:1.1}.nvbm span{font-size:16px;font-weight:700;overflow:hidden;text-overflow:ellipsis}.nvbm small{color:#bcd7ff;font-size:13.5px;font-weight:600;margin-top:2px}
+body.nvlive .nvtop{display:none}
+.nvdot{width:18px;height:18px;border-radius:50%;background:#0a84ff;border:3px solid #fff;box-shadow:0 0 0 8px rgba(10,132,255,.3)}
+.nvdot.nav{width:22px;height:22px;background:#0a84ff;border:4px solid #fff;box-shadow:0 0 0 7px rgba(10,132,255,.24),0 2px 8px rgba(0,0,0,.4)}
+body.nvlive .nvpoi{opacity:.9}body.nvlive .nvbn{backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.nvpin{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px;background:#fff;color:#000;border:2px solid #000}.nvpin.b{background:#ff453a;color:#fff;border-color:#fff}
+/* iOS 26 tab bar */
+.tbw{position:fixed;z-index:50;left:0;right:0;bottom:max(8px,env(safe-area-inset-bottom));display:flex;justify-content:center;pointer-events:none}
+@media(min-width:900px){.tbw{left:322px}}
+.tb{position:relative;pointer-events:auto;display:flex;gap:4px;padding:4px;border-radius:999px;width:min(210px,calc(100vw - 40px));height:52px}
+.tbp{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 12px)/2);border-radius:999px;background:rgba(255,255,255,.17);box-shadow:inset 0 1px 0 rgba(255,255,255,.25);transition:transform .55s cubic-bezier(.3,1.35,.4,1)}
+.tb[data-i="1"] .tbp{transform:translateX(calc(100% + 4px))}
+.tbi{position:relative;z-index:1;flex:1;border-radius:999px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#fff;font-size:10.5px;font-weight:700;transition:color .35s,transform .35s var(--sp)}
+.tbi.on{color:#3d94ff}.tbi:active{transform:scale(.9)}
+.dock{bottom:calc(max(8px,env(safe-area-inset-bottom)) + 58px);padding-bottom:6px}
+.hero{inset:0 0 205px 0}#feed{padding-bottom:262px}.sdn{bottom:190px}.toast{bottom:150px}
+@media(max-width:1179px){body.wpo .tbw{display:none}}
+body.nvon .side{transform:translateX(calc(-100% - 24px))}
+body.nvon .tbw{left:0}
+.tbw{transition:left .65s var(--io)}
+</style>
+<style>
+.hd{pointer-events:none}.hd>*{pointer-events:auto}
+/* ===== fixes ===== */
+h1,.shead h2{line-height:1.32;padding:.12em .06em .16em;overflow:visible}
+.hello{line-height:1.5}
+.card b,.card span,.rt,.rs,.rh,.wpt,.ttl,.nvo,.ddb span,.it>button,.mi span,.prof b,.prof small,.sbrand span,.newb span{line-height:1.45}
+.cb .ch,.tabs button,.ech,.sc,.ac button{line-height:1.4}
+#bN2 span{display:none}@media(min-width:900px){#bN2 span{display:inline}#bN2{padding:0 18px}}
+.nvemb{position:absolute;inset:0;width:100%;height:100%;border:0;filter:invert(.88) hue-rotate(180deg) brightness(.8) contrast(1.05) saturate(.9)}.nvretry{position:absolute;z-index:3;right:14px;bottom:calc(max(8px,env(safe-area-inset-bottom)) + 74px);padding:9px 16px;border-radius:999px;background:rgba(0,0,0,.7);color:#fff;font-weight:700;font-size:13px;border:1px solid rgba(255,255,255,.2)}
+.nvfail{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:30px;color:#c8c8ce}
+.nvfail button{padding:12px 22px;border-radius:999px;background:#fff;color:#000;font-weight:700}
+@media(max-height:780px){.hl{width:84px;margin-bottom:6px}.hello{margin-bottom:4px;font-size:11px}h1{font-size:clamp(26px,4.4vw,44px)}.bento{margin-top:14px;gap:8px}.card{padding:12px 16px}.card span{display:none}.card i{width:28px;height:28px;margin-bottom:2px}}
+@media(max-height:620px){.hl,.hello{display:none}}
+@media(max-width:480px){.nvtop{padding:8px 8px 7px;gap:4px;border-radius:22px}.nvrow{padding:0 6px}.nvrow b{font-size:15px}.nvf{height:38px}.nvmd button{height:32px;font-size:12px}.nvlegend{min-height:14px;font-size:9px}.nvlegend i{font-size:11px}.nvweather{padding:6px 10px;gap:3px}.nvwbody{gap:6px}.nvwi{font-size:23px}.nvwtemps b{font-size:24px}.nvwh{font-size:9px}.nvwattrib{font-size:7px}}
+@media(max-width:480px){.nvbn{left:8px;right:8px;padding:7px 10px;gap:8px;border-radius:20px;max-height:18vh;overflow:hidden}.nvbn em{width:40px;height:40px;font-size:23px}.nvbm b{font-size:21px}.nvbm span{font-size:11px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;white-space:normal}.nvbm small{font-size:9px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;white-space:normal}.nvbot{left:8px;right:8px;bottom:calc(max(8px,env(safe-area-inset-bottom)) + 58px);max-height:24vh;overflow-y:auto;padding:8px 10px;border-radius:20px;gap:5px}.nvpho{gap:7px}.nvpho img{width:34px;height:34px;border-radius:11px}.nvpho b{font-size:13px}.nvpho span{font-size:9.5px;line-height:1.2;-webkit-line-clamp:1}.nvsum{gap:5px}.nvsum b{font-size:20px}.nvsum span{font-size:11px}.nvlv{gap:2px}.nvlv b{font-size:14px}.nvlv small{font-size:8px}.nvlv .spd{width:40px;height:40px;border-width:2px}.nvlv .spd b{font-size:14px}.nvlv .spd small{font-size:7px}.nvact{gap:4px;flex-wrap:nowrap}.nvact button,.nvact a{height:31px;min-width:0;padding:0 7px;font-size:10px}.nvact #nvrc,.nvact #nvmu{width:30px;padding:0;justify-content:center;flex:none}.nvst{max-height:36px}.nvst div{gap:6px;padding:4px 1px;font-size:10px}.nvst div:not(:first-child){display:none}.nvst div em{width:20px;font-size:14px}.nvst div small{font-size:8px}}
+@media(min-width:481px) and (max-width:899px){.nvtop{left:14px;right:14px;top:14px;max-width:480px;padding:9px;gap:5px}.nvf{height:40px}.nvmd button{height:34px}.nvbot{left:14px;right:14px;bottom:calc(max(8px,env(safe-area-inset-bottom)) + 60px);max-height:32vh;padding:12px 14px;gap:8px;border-radius:26px}.nvpho img{width:48px;height:48px}.nvst{max-height:12vh}.nvst div{padding:6px 3px;font-size:12px}#nvmap .leaflet-control-attribution{margin-bottom:64px!important}}
+@media(min-width:900px){.nvtop{left:18px;right:auto;top:18px;width:clamp(360px,32vw,440px);max-width:440px;padding:12px;gap:7px}.nvf{height:44px}.nvmd button{height:38px}.nvlegend{min-height:22px}.nvweather{padding:9px 13px}.nvbot{left:auto;right:18px;bottom:18px;width:clamp(360px,30vw,440px);max-width:440px;max-height:min(48vh,420px);padding:14px 16px;gap:9px;border-radius:28px}.nvpho img{width:52px;height:52px}.nvsum b{font-size:26px}.nvst{max-height:24vh}.nvst div{padding:7px 4px;font-size:13px}.nvbn{left:18px;right:auto;top:18px;width:clamp(360px,32vw,440px);max-width:440px;padding:12px 16px;gap:12px;border-radius:26px}.nvbn em{width:52px;height:52px;font-size:30px}.nvbm b{font-size:27px}.nvbm span{font-size:14px}.nvbm small{font-size:12px}#nvmap .leaflet-control-attribution{margin:0 8px 8px 0!important}}
+@media(min-width:900px) and (max-height:760px){.nvtop{top:12px;left:12px;padding:9px 10px;gap:5px}.nvrow b{font-size:15px}.nvf{height:38px}.nvmd button{height:32px}.nvlegend{min-height:18px}.nvweather{padding:6px 10px;gap:3px}.nvwi{font-size:23px}.nvwtemps b{font-size:23px}.nvbot{right:12px;bottom:12px;padding:10px 12px;gap:6px;max-height:42vh}.nvst{max-height:18vh}.nvst div{padding:5px 3px;font-size:12px}.nvbn{top:12px;left:12px;padding:9px 12px}.nvbn em{width:44px;height:44px;font-size:25px}#nvmap .leaflet-control-attribution{margin-bottom:8px!important}}
+</style><style>
+.nvpho{display:none;align-items:center;gap:12px}.nvpho.on{display:flex;animation:up .5s var(--sp) both}
+.nvpho img{flex:none;width:64px;height:64px;border-radius:20px;object-fit:cover;background:rgba(255,255,255,.08)}
+.nvpho div{display:flex;flex-direction:column;min-width:0}.nvpho b{font-size:17px}.nvpho span{font-size:12.5px;color:var(--m);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nvbot:not(.has) .nvsum,.nvbot:not(.has) .nvact,.nvbot:not(.has) .nvst,.nvbot:not(.has) .nvlv{display:none}
+.nvo{animation:up .35s var(--sp) both}.nvmd button,.nvact button,.nvact a{transition:transform .3s var(--sp),background .3s}.nvmd button:active,.nvact button:active{transform:scale(.94)}
+</style></head><body>
 <div class="bgd"></div>
 <aside class="side glass" id="side">
 <div class="sbrand"><i class="lg"></i><span>Nexa AI</span></div>
@@ -288,16 +373,16 @@ body.noanim *,body.noanim *::before,body.noanim *::after{animation:none!importan
 <label class="srch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" autocomplete="off"></label>
 <div class="lbl" data-t="chats"></div><div id="list"></div>
 <div class="sfoot">
-<button class="mi" id="dQ"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span data-t="wsT"></span></button>
 <button class="mi" id="dS"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg><span data-t="settings"></span></button>
 <button class="prof" id="prof"><i class="av2" id="pav"></i><div><b id="pn"></b><small id="pe"></small></div></button></div></aside>
 <div class="bd" id="bd"></div>
 <header class="hd"><button class="gb glass" id="bM" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button><div class="ttl" id="ttl"></div>
-<button class="gb glass" id="bN2" aria-label="Nexa Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></header>
+<button class="gb glass" id="bN2" aria-label="Nexa Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span data-t="wsT"></span></button></header>
 <main id="main"><section class="hero" id="hero"><i class="hl"></i><div class="hello" id="hello"></div><h1 id="h1"></h1><div class="bento" id="bento"></div></section>
 <section id="srchv"><div class="svin"><button class="ib sx" id="sclose" aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
 <div class="shead"><i class="hl2"></i><h2 data-t="wsT"></h2></div>
 <form class="sbox glass" id="sform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="sin" autocomplete="off" enterkeyhint="search"><button class="sgo" type="submit" data-t="sbtn"></button></form>
+<div class="engs" id="engs"></div>
 <div id="sres"></div></div></section>
 <div id="feed"><div class="col" id="col"></div></div></main>
 <div class="dock"><div class="tray" id="tray"></div>
@@ -312,6 +397,24 @@ body.noanim *,body.noanim *::before,body.noanim *::after{animation:none!importan
 <aside class="set" id="set"><div class="sh-h"><button class="ib" id="sb" aria-label="Back">‹</button><h2 data-t="settings"></h2></div><div class="tabs" id="tabs"></div><div id="sbody"></div></aside>
 <div class="md" id="draw"><div class="mb glass"><canvas id="cv" width="1200" height="900"></canvas><div class="cl" id="cl"></div></div></div>
 <input type="file" id="fF" multiple hidden accept=".txt,.md,.csv,.json,.js,.ts,.py,.html,.css,.xml,.yml,.yaml,.java,.c,.cpp,.go,.rs,.php,.sql,.log,text/*"><input type="file" id="fP" multiple hidden accept="image/*"><input type="file" id="fC" hidden accept="image/*" capture="environment">
+<nav class="tbw" id="tb"><div class="tb glass" id="tbbar" data-i="0"><i class="tbp"></i><button class="tbi on" id="tbc" data-tab="chat"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg><span id="tbcT"></span></button><button class="tbi" id="tbn" data-tab="nav"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg><span id="tbnT"></span></button></div></nav>
+<div class="nvw" id="nv"><div id="nvmap"></div>
+<div class="nvtop glass"><div class="nvrow"><b id="nvt"></b></div>
+<div class="nvf"><i>A</i><input id="nva" autocomplete="off" enterkeyhint="next"><button type="button" class="ib" id="nvme" aria-label="My location"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button></div><div class="nvs" id="nvsa"></div>
+<div class="nvf"><i class="pb">B</i><input id="nvb" autocomplete="off" enterkeyhint="go"><button type="button" class="ib" id="nvsw" aria-label="Swap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v16M4 16l4 4 4-4M16 20V4M12 8l4-4 4 4"/></svg></button></div><div class="nvs" id="nvsb"></div>
+<div class="nvmd" id="nvmd"><button data-m="car"></button><button data-m="foot"></button><button data-m="bike"></button></div>
+<div class="nvlegend" aria-label="Map markers"><span><i>🚦</i><b id="nvlegendSignals"></b></span><span><i>📸</i><b id="nvlegendCameras"></b></span></div>
+<section class="nvweather" id="nvweather" aria-live="polite" aria-label="Weather">
+<div class="nvwh"><span id="nvwplace"></span><span class="nvwtime"><i id="nvwdayicon">☀️</i><span id="nvwday"></span></span><button type="button" class="nvwr" id="nvwrefresh" aria-label="Refresh weather" title="Refresh">↻</button></div>
+<div class="nvwbody"><span class="nvwi" id="nvwicon">☀️</span><div class="nvwtemps"><b id="nvwtemp">--°</b><small id="nvwcondition"></small></div><span class="nvwfeels" id="nvwfeels"></span></div>
+<div class="nvwattrib"><a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather · Open-Meteo</a></div>
+</section></div>
+<div class="nvbn glass" id="nvbn"><em id="nvbe"></em><div class="nvbm"><b id="nvbd"></b><span id="nvbt"></span><small id="nvbth"></small></div></div>
+<div class="nvbot glass" id="nvbot"><div class="nvpho" id="nvpho"></div>
+<div class="nvsum" id="nvsum"><b id="nvtm"></b><span id="nvd"></span></div>
+<div class="nvlv" id="nvlv"><div><b id="nvA1"></b><small id="nvA1l"></small></div><div><b id="nvT1"></b><small id="nvT1l"></small></div><div><b id="nvD1"></b><small id="nvD1l"></small></div><div class="spd"><b id="nvSp">0</b><small id="nvSpl"></small></div></div>
+<div class="nvact"><button class="go" id="nvgo"></button><a id="nvg1" target="_blank" rel="noopener">Google</a><a id="nvg2" target="_blank" rel="noopener">Yandex</a><button id="nvrc" aria-label="Center">&#9678;</button><button id="nvtf" aria-label="Traffic" style="display:none">&#128678;</button><button id="nvmu" aria-label="Voice">&#128266;</button></div>
+<div class="nvst" id="nvst"></div></div></div>
 <div class="toast" id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
@@ -397,9 +500,24 @@ async function ask(text,o){o=o||{};if(busy)return;let c=chats.find(x=>x.id===cur
  const sa=[];if(!o.retry){for(const a of atts)sa.push(a.kind==="image"?{kind:"image",name:a.name,dataUrl:a.dataUrl}:{kind:"file",name:a.name,text:a.text})}else if(o.sa)sa.push(...o.sa);
  const hist=(o.retry?c.m.slice(0,-1):c.m).slice(-20).map(m=>({role:m.r==="a"?"assistant":"user",content:m.t}));
  if(!o.retry){const th=atts.filter(a=>a.kind==="image").map(a=>a.dataUrl),fn=atts.filter(a=>a.kind!=="image").map(a=>a.name);c.m.push({r:"u",t:text,fn:atts.map(a=>a.name).filter(n=>!atts.find(a=>a.name===n&&a.kind==="image"))});save();document.body.classList.add("chat");addMsg("u",text,{th,fn});atts=[];tray();ttl();renderList();lastSA=sa}
- const live=addMsg("a","",{stream:true}),x=live.querySelector(".tx");busy=true;ctl=new AbortController();const to=setTimeout(()=>{ctl&&ctl.abort("timeout")},75000);orb.set("think");$("#send").disabled=false;sendIcon(true);
+ const live=addMsg("a","",{stream:true}),x=live.querySelector(".tx");
+ const typing=mk("div","typing");typing.setAttribute("aria-label","Nexa AI is typing");typing.innerHTML="<span></span><span></span><span></span>";x.appendChild(typing);
+ busy=true;ctl=new AbortController();const to=setTimeout(()=>{ctl&&ctl.abort("timeout")},75000);orb.set("think");$("#send").disabled=false;sendIcon(true);
  let out="",err=null,src=null,pend=false;
- const paint=()=>{pend=false;rich(x,out);scroll()},paintQ=()=>{if(!pend){pend=true;requestAnimationFrame(()=>{if(pend)paint()})}};
+ const clearTyping=()=>{const t=x.querySelector(".typing");if(t)t.remove()};
+ const paint=()=>{pend=false;clearTyping();rich(x,out);scroll()},paintQ=()=>{clearTyping();if(!pend){pend=true;requestAnimationFrame(()=>{if(pend)paint()})}};
+ async function revealWords(value){
+   clearTyping();x.textContent="";
+   const words=value.match(/\S+\s*/g)||[value];
+   const group=words.length>220?3:words.length>100?2:1;
+   const delay=words.length>220?7:words.length>100?9:12;
+   for(let i=0;i<words.length;i+=group){
+     if(ctl&&ctl.signal.aborted)break;
+     x.appendChild(document.createTextNode(words.slice(i,i+group).join("")));
+     scroll();
+     if(i+group<words.length)await new Promise(resolve=>setTimeout(resolve,delay));
+   }
+ }
  if(cfg.web&&needWeb(text,sa)){x.classList.add("cur");x.textContent=T("wbSt");try{const W=await tmo(webSources(text.slice(0,200)),11000);if(W&&W.all.length)src=W.all.slice(0,6)}catch(e){}if(src&&innerWidth>=1180)openPanel(src,-1,false)}
  x._src=src;const ctx=src?"\n\n[Web sources: use them when relevant and cite as [1], [2]]\n"+src.map((r,i)=>"["+(i+1)+"] "+r.t+" — "+r.s).join("\n"):"";
  try{const res=await callAPI({message:(text||"(attachment)")+ctx,system:sysP(),history:hist,attachments:o.retry?(lastSA||[]):sa,personality:"friendly",language:"auto",instructions:cfg.inst},ctl.signal);clearTimeout(to);
@@ -407,10 +525,10 @@ async function ask(text,o){o=o||{};if(busy)return;let c=chats.find(x=>x.id===cur
   if(ct.includes("ndjson")&&res.body){const rd=res.body.getReader(),dc=new TextDecoder();let buf="";orb.set("speak");
    const line=l=>{if(!l.trim())return;let p;try{p=JSON.parse(l)}catch(e){return}if(p.error)throw new Error("srv");if(typeof p.text==="string"&&p.text){out+=p.text;paintQ()}};
    for(;;){const k=await rd.read();buf+=dc.decode(k.value||new Uint8Array(),{stream:!k.done});const ls=buf.split(/\r?\n/);buf=ls.pop()||"";ls.forEach(line);if(k.done)break}if(buf.trim())line(buf)}
-  else{const d=await res.json().catch(()=>null);out=d&&(d.reply??d.response??d.message);if(typeof out!=="string")out=""}
+  else{const d=await res.json().catch(()=>null);out=d&&(d.reply??d.response??d.answer??d.text??d.message);if(typeof out!=="string")out="";if(!bad(out))await revealWords(out)}
   if(bad(out))throw new Error("empty");paint()
  }catch(e){clearTimeout(to);if(e.name==="AbortError"&&ctl&&ctl.signal.reason!=="timeout"){err=out?null:"stop"}else err=e.name==="AbortError"?"time":(e.message==="net"?"net":e.message==="empty"?"empty":"srv");if(err&&err!=="stop")out=""}
- x.classList.remove("cur");busy=false;ctl=null;sendIcon(false);sync();orb.set("idle");
+ clearTyping();x.classList.remove("cur");busy=false;ctl=null;sendIcon(false);sync();orb.set("idle");
  if(out&&!bad(out)){c.m.push({r:"a",t:out,src:src||undefined});save();if(src)addSrcs(live,src);acts(live,out);fixRg();if(lv&&o.speakIt)speak(out)}
  else if(err==="stop"){live.remove()}
  else{const k={net:"eNet",time:"eTime",empty:"eEmpty",srv:"eSrv"}[err]||"eSrv";x.textContent=T(k);x.classList.add("errt");const a=mk("div","ac"),r=mk("button","rt","↻ "+T("retry"));r.onclick=()=>{live.remove();ask(text,{retry:true,speakIt:o.speakIt})};a.appendChild(r);x.appendChild(a);if(lv){$("#lcap").textContent=T(k);lset("idle")}}
@@ -513,7 +631,7 @@ const syn=window.speechSynthesis;let lv=false;const orb={boost:0,set(){}};functi
 let sq=0;
 function openSearch(){document.body.classList.add("ws");closeSide();$("#ttl").textContent=T("wsT");setTimeout(()=>$("#sin").focus(),120)}
 function closeSearch(){if(!document.body.classList.contains("ws"))return;document.body.classList.remove("ws");ttl()}
-$("#dQ").onclick=openSearch;$("#sclose").onclick=closeSearch;
+$("#sclose").onclick=closeSearch;
 const strip=h=>(h||"").replace(/<[^>]+>/g,"").replace(/&quot;/g,'"').replace(/&amp;/g,"&").replace(/&#39;/g,"'").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/\s+/g," ").trim();
 async function jget(u,ms){const c=new AbortController(),t=setTimeout(()=>c.abort(),ms||9000);try{const r=await fetch(u,{signal:c.signal});if(!r.ok)throw 0;return await r.json()}finally{clearTimeout(t)}}
 async function wiki(lang,q){const u="https://"+lang+".wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrlimit=8&gsrsearch="+encodeURIComponent(q)+"&prop=pageimages%7Cextracts&exintro=1&explaintext=1&exlimit=max&exchars=320&piprop=thumbnail&pithumbsize=160";
@@ -522,7 +640,7 @@ async function ddg(q){const d=await jget("https://api.duckduckgo.com/?q="+encode
  if(d.AbstractText&&d.AbstractURL)r.push({t:d.Heading||q,u:d.AbstractURL,s:strip(d.AbstractText).slice(0,320),i:d.Image?(d.Image.startsWith("http")?d.Image:"https://duckduckgo.com"+d.Image):"",h:(d.AbstractURL.split("/")[2]||"")});
  (d.RelatedTopics||[]).slice(0,5).forEach(x=>{if(x.FirstURL&&x.Text)r.push({t:x.Text.split(" - ")[0].slice(0,80),u:x.FirstURL,s:strip(x.Text).slice(0,260),i:"",h:(x.FirstURL.split("/")[2]||"")})});return r}
 async function srv(q){const d=await jget("/api/search?lang="+L+"&q="+encodeURIComponent(q),12000);return(d.results||[]).map(x=>({t:strip(x.title||x.url),u:x.url,s:strip(x.snippet||"").slice(0,500),i:x.image||"",h:(x.url.split("/")[2]||"").replace(/^www\./,"")}))}
-async function webSources(q){try{const r=await srv(q);if(r.length)return{all:r.slice(0,10),failed:false}}catch(e){}const jobs=[wiki(L,q)];if(L!=="en")jobs.push(wiki("en",q));jobs.push(ddg(q));const rs=await Promise.allSettled(jobs);let all=[];rs.forEach(x=>{if(x.status==="fulfilled")all=all.concat(x.value)});const seen=new Set();all=all.filter(x=>{if(!x.u||seen.has(x.u))return false;seen.add(x.u);return true}).slice(0,10);return{all,failed:rs.every(x=>x.status==="rejected")}}
+async function webSources(q){let r=[],bad=false;try{r=await srv(q)}catch(e){bad=true}if(!r.length){const jobs=[wiki(L,q)];if(L!=="en")jobs.push(wiki("en",q));jobs.push(ddg(q));const rs=await Promise.allSettled(jobs);let all=[];rs.forEach(x=>{if(x.status==="fulfilled")all=all.concat(x.value)});const seen=new Set();r=all.filter(x=>x.u&&!seen.has(x.u)&&seen.add(x.u));bad=bad&&rs.every(x=>x.status==="rejected")}return{all:r.slice(0,10),failed:bad&&!r.length}}
 function extLinks(q){const w=mk("div","ext");w.appendChild(mk("span","",T("wsExt")));[["Google","https://www.google.com/search?q="],["Bing","https://www.bing.com/search?q="],["DuckDuckGo","https://duckduckgo.com/?q="]].forEach(([n,u])=>{const a=mk("a","",n);a.href=u+encodeURIComponent(q);a.target="_blank";a.rel="noopener";w.appendChild(a)});return w}
 function resCard(r,i,q){const c=mk("div","rc glass");c.style.animationDelay=(i*.04)+"s";if(r.i){const im=mk("img");im.src=r.i;im.alt="";im.loading="lazy";im.onerror=()=>im.remove();c.appendChild(im)}
  const b=mk("div","rb");b.appendChild(mk("div","rh",r.h));const t=mk("button","rt",r.t);t.onclick=()=>openWeb(r.u);b.appendChild(t);b.appendChild(mk("div","rs",r.s));
@@ -539,7 +657,7 @@ async function doSearch(q){q=q.trim();if(!q)return;const id=++sq,R=$("#sres");R.
   let out="";const ct=res.headers.get("content-type")||"";
   if(ct.includes("ndjson")&&res.body){const rd2=res.body.getReader(),dc=new TextDecoder();let buf="";const line=l=>{if(!l.trim())return;let p;try{p=JSON.parse(l)}catch(e){return}if(typeof p.text==="string"&&p.text&&id===sq){out+=p.text;rich(ob,out)}};
    for(;;){const k=await rd2.read();buf+=dc.decode(k.value||new Uint8Array(),{stream:!k.done});const ls=buf.split(/\r?\n/);buf=ls.pop()||"";ls.forEach(line);if(k.done)break}if(buf.trim())line(buf)}
-  else{const d=await res.json().catch(()=>null);out=d&&(d.reply??d.response??d.message);if(typeof out==="string"&&id===sq)rich(ob,out)}
+  else{const d=await res.json().catch(()=>null);out=d&&(d.reply??d.response??d.answer??d.text??d.message);if(typeof out==="string"&&id===sq)rich(ob,out)}
   if(bad(out))throw 0;ob.classList.remove("cur")}catch(e){if(id===sq)ov.remove()}}
 $("#sform").onsubmit=e=>{e.preventDefault();doSearch($("#sin").value)};
 /* web panel */
@@ -555,6 +673,153 @@ $("#wpx").onclick=closePanel;$("#wpb").onclick=showList;$("#wr").onclick=()=>{co
 const fd=$("#feed");fd.addEventListener("scroll",()=>$("#sdn").classList.toggle("on",fd.scrollHeight-fd.scrollTop-fd.clientHeight>320),{passive:true});$("#sdn").onclick=()=>fd.scrollTo({top:1e9,behavior:"smooth"});
 addEventListener("offline",()=>toast(T("eNet")));
 
+/* ===== Omnibox + Navigator ===== */
+const NVT={
+hy:{ar:"Ժամանում",tl:"Մնաց",dl:"Մնաց",kh:"կմ/ժ",then:"Հետո",chat:"Չատ",t:"Նավիգատոր",nearby:"Քո մոտակայքում",city:"Երևան",day:"Ցերեկ",night:"Գիշեր",feels:"Զգացվում է",weatherError:"Եղանակը հիմա հասանելի չէ",weatherLoading:"Եղանակը բեռնվում է…",refreshWeather:"Թարմացնել եղանակը",trafficLights:"Լուսացույցներ",speedCameras:"Արագաչափեր",layerError:"Քարտեզի նշումները հիմա հասանելի չեն։",weather:{clear:"Պարզ երկինք",mostly:"Հիմնականում պարզ",partly:"Մասամբ ամպամած",cloudy:"Ամպամած",fog:"Մառախուղ",drizzle:"Մանր անձրև",rain:"Անձրև",snow:"Ձյուն",showers:"Անձրևային",storm:"Ամպրոպ"},a:"Սկսած (A)",b:"Մինչև (B)",me:"Իմ դիրքը",start:"Սկսել",stop:"Կանգ",car:"🚗 Մեքենա",foot:"🚶 Ոտքով",bike:"🚲 Հեծանիվ",none:"Ճանապարհը չգտնվեց",nogeo:"Տեղադրության թույլտվությունը մերժված է — թույլատրիր բրաուզերում (🔒) կամ գրիր Սկսած (A) հասցեն",nf:"Հասցե չգտնվեց",oph:"Որոնում կամ կայք",km:"կմ",m:"մ",h:"ժ",min:"ր",d:{left:"ձախ",right:"աջ",sl:"թեթևակի ձախ",sr:"թեթևակի աջ",shl:"կտրուկ ձախ",shr:"կտրուկ աջ",st:"ուղիղ",u:"ետ"},p:{dep:"Շարժվիր",arr:"Հասել ես",turn:"Թեքվիր {d}",cont:"Շարունակիր {d}",round:"Մտիր շրջանաձև խաչմերուկ",fork:"Պահիր {d}",merge:"Միացիր հոսքին"}},
+en:{ar:"Arrive",tl:"Time left",dl:"Left",kh:"km/h",then:"Then",chat:"Chat",t:"Navigator",nearby:"Near you",city:"Yerevan",day:"Day",night:"Night",feels:"Feels like",weatherError:"Weather is unavailable right now",weatherLoading:"Loading weather…",refreshWeather:"Refresh weather",trafficLights:"Traffic lights",speedCameras:"Speed cameras",layerError:"Map markers are unavailable right now.",weather:{clear:"Clear sky",mostly:"Mostly clear",partly:"Partly cloudy",cloudy:"Overcast",fog:"Fog",drizzle:"Drizzle",rain:"Rain",snow:"Snow",showers:"Rain showers",storm:"Thunderstorm"},a:"From (A)",b:"To (B)",me:"My location",start:"Start",stop:"Stop",car:"🚗 Drive",foot:"🚶 Walk",bike:"🚲 Bike",none:"No route found",nogeo:"Location permission denied — allow it in the browser (🔒) or type the start address (A)",nf:"Address not found",oph:"Search or URL",km:"km",m:"m",h:"h",min:"min",d:{left:"left",right:"right",sl:"slightly left",sr:"slightly right",shl:"sharp left",shr:"sharp right",st:"straight",u:"around"},p:{dep:"Head out",arr:"You have arrived",turn:"Turn {d}",cont:"Continue {d}",round:"Take the roundabout",fork:"Keep {d}",merge:"Merge"}},
+ru:{ar:"Прибытие",tl:"В пути",dl:"Осталось",kh:"км/ч",then:"Потом",chat:"Чат",t:"Навигатор",nearby:"Рядом с вами",city:"Ереван",day:"День",night:"Ночь",feels:"Ощущается как",weatherError:"Погода сейчас недоступна",weatherLoading:"Загружаем погоду…",refreshWeather:"Обновить погоду",trafficLights:"Светофоры",speedCameras:"Камеры скорости",layerError:"Метки карты сейчас недоступны.",weather:{clear:"Ясно",mostly:"Преимущественно ясно",partly:"Переменная облачность",cloudy:"Облачно",fog:"Туман",drizzle:"Морось",rain:"Дождь",snow:"Снег",showers:"Ливень",storm:"Гроза"},a:"Откуда (A)",b:"Куда (B)",me:"Моё местоположение",start:"Начать",stop:"Стоп",car:"🚗 Авто",foot:"🚶 Пешком",bike:"🚲 Велосипед",none:"Маршрут не найден",nogeo:"Нет доступа к геолокации — разрешите в браузере (🔒) или введите адрес «Откуда (A)»",nf:"Адрес не найден",oph:"Поиск или сайт",km:"км",m:"м",h:"ч",min:"мин",d:{left:"налево",right:"направо",sl:"левее",sr:"правее",shl:"резко налево",shr:"резко направо",st:"прямо",u:"разворот"},p:{dep:"Начните движение",arr:"Вы прибыли",turn:"Поверните {d}",cont:"Продолжайте {d}",round:"Въезд на кольцо",fork:"Держитесь {d}",merge:"Перестройтесь"}}};
+const ENG={nexa:["Nexa","N",""],google:["Google","G","https://www.google.com/search?q="],yandex:["Yandex","Y","https://yandex.com/search/?text="],bing:["Edge · Bing","E","https://www.bing.com/search?q="]};
+let eng=null;try{eng=localStorage.getItem("nexa2.eng")}catch(e){}if(!ENG[eng])eng="nexa";
+function srchGo(v){v=(v||"").trim();if(!v)return;if(/^https?:\/\//i.test(v)||/^[^\s]+\.[^\s]{2,}$/.test(v))return openWeb(v);const e=ENG[eng];if(e[2])window.open(e[2]+encodeURIComponent(v),"_blank","noopener");else doSearch(v)}
+function engSet(k){eng=k;try{localStorage.setItem("nexa2.eng",k)}catch(e){}document.querySelectorAll("#engs button[data-k]").forEach(b=>b.classList.toggle("on",b.dataset.k===k))}
+Object.keys(ENG).forEach(k=>{const b=mk("button","ech",ENG[k][0]);b.type="button";b.dataset.k=k;b.onclick=()=>engSet(k);$("#engs").appendChild(b)});
+$("#sform").onsubmit=e=>{e.preventDefault();srchGo($("#sin").value)};
+engSet(eng);
+/* navigator */
+const NV_TT="";/* optional: TomTom traffic API key -> enables the traffic layer button */
+const nvPt={a:null,b:null};let nvMode="car",nvMap=null,nvLay=null,nvR=null,nvWatch=null,nvMe=null,nvNavMarker=null,nvNavHeading=0,nvMute=false,nvK=1,nvSaid={},nvLastRe=0,nvFollow=true,nvTraf=null,nvLP=null,nvRouteLine=null,nvRouteCasing=null,nvRouteGlow=null,nvRouteHighlight=null,nvWeatherKey="",nvWeatherAt=0,nvWeatherSeq=0,nvWeatherPos={lat:40.18,lon:44.5},nvWeatherNearby=false,nvWeatherData=null,nvSignalLayer=null,nvCameraLayer=null,nvRoadData=null,nvRoadViewKey="",nvRoadCacheKey="",nvRoadRequestKey="",nvRoadLastRequest=0,nvRoadSeq=0,nvRoadTimer=0;
+const nvL=()=>NVT[L]||NVT.en;
+const nvFD=m=>m>=1000?(m/1000).toFixed(m>=10000?0:1)+" "+nvL().km:Math.max(10,Math.round(m/10)*10)+" "+nvL().m;
+const nvFT=s=>{const m=Math.max(1,Math.round(s/60)),t=nvL();return m>=60?Math.floor(m/60)+" "+t.h+" "+(m%60)+" "+t.min:m+" "+t.min};
+const nvETA=s=>new Date(Date.now()+s*1000).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+const nvHav=(a,b)=>{const R=6371000,r=x=>x*Math.PI/180,dl=r(b[0]-a[0]),dn=r(b[1]-a[1]),h=Math.sin(dl/2)**2+Math.cos(r(a[0]))*Math.cos(r(b[0]))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+const nvBearing=(a,b)=>{const r=x=>x*Math.PI/180,d=r(b[1]-a[1]),y=Math.sin(d)*Math.cos(r(b[0])),x=Math.cos(r(a[0]))*Math.sin(r(b[0]))-Math.sin(r(a[0]))*Math.cos(r(b[0]))*Math.cos(d);return(Math.atan2(y,x)*180/Math.PI+360)%360};
+function nvI(s){const t=nvL(),m=s.maneuver||{},ty=m.type||"",dk={left:"left",right:"right","slight left":"sl","slight right":"sr","sharp left":"shl","sharp right":"shr",straight:"st",uturn:"u"}[m.modifier]||"st",d=t.d[dk];let x;
+if(ty==="depart")x=t.p.dep;else if(ty==="arrive")x=t.p.arr;else if(/roundabout|rotary/.test(ty))x=t.p.round;else if(ty==="fork")x=t.p.fork.replace("{d}",d);else if(ty==="merge")x=t.p.merge;else if(/turn|end of road|ramp/.test(ty))x=t.p.turn.replace("{d}",d);else x=t.p.cont.replace("{d}",d);
+return x+(s.name&&ty!=="arrive"?" · "+s.name:"")}
+function nvA(s){const m=s.maneuver||{},ty=m.type||"";if(ty==="arrive")return"⚑";if(ty==="depart")return"●";if(/roundabout|rotary/.test(ty))return"⟳";return{left:"←",right:"→","slight left":"↖","slight right":"↗","sharp left":"↙","sharp right":"↘",straight:"↑",uturn:"↶"}[m.modifier]||"↑"}
+const NV_TILE_URL="";/* OPTIONAL: grir qo tile URL-@ (orinak MapTiler: https://api.maptiler.com/maps/streets-v2-dark/{z}/{x}/{y}.png?key=KEY) */
+const NV_CDN=[["https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css","https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"],["https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css","https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"],["https://unpkg.com/leaflet@1.9.4/dist/leaflet.css","https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"]];
+function nvScript(src){return new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.async=true;const t=setTimeout(()=>{s.remove();no(new Error("timeout"))},12000);s.onload=()=>{clearTimeout(t);window.L&&window.L.map?ok():no(new Error("nol"))};s.onerror=()=>{clearTimeout(t);s.remove();no(new Error("err"))};document.head.appendChild(s)})}
+async function nvLoad(){if(window.L&&window.L.map)return;let last;for(const [css,js] of NV_CDN){try{const c=document.createElement("link");c.rel="stylesheet";c.href=css;c.dataset.lf="1";document.head.appendChild(c);await nvScript(js);return}catch(e){last=e;document.querySelectorAll("link[data-lf]").forEach(x=>x.remove())}}throw last||new Error("load")}
+let nvEmb=false;
+function nvEmbed(lat,lon,d){const el=$("#nvmap");const k=d||.06;const bb=[lon-k,lat-k*.6,lon+k,lat+k*.6].map(x=>x.toFixed(5)).join("%2C");el.innerHTML='<iframe title="map" class="nvemb" src="https://www.openstreetmap.org/export/embed.html?bbox='+bb+'&layer=mapnik&marker='+lat+'%2C'+lon+'"></iframe><button class="nvretry" type="button">↻ '+T("retry")+'</button>';el.querySelector(".nvretry").onclick=()=>{el.innerHTML="";nvEmb=false;openNav()};nvEmb=true}
+function nvFail(){if(navigator.geolocation)navigator.geolocation.getCurrentPosition(p=>{nvWeather(p.coords.latitude,p.coords.longitude,true);nvEmbed(p.coords.latitude,p.coords.longitude,.05);if(!nvPt.a&&!$("#nva").value){nvPt.a={lat:p.coords.latitude,lon:p.coords.longitude,label:nvL().me};$("#nva").value=nvL().me}},()=>{nvWeather(40.1792,44.5126,false);nvEmbed(40.1792,44.5126,.08)},{timeout:6000,maximumAge:60000});else{nvWeather(40.1792,44.5126,false);nvEmbed(40.1792,44.5126,.08)}}
+async function nvPreview(p,key){if(!nvMap&&!nvEmb){await nvInit()}if(nvMap){const LF=window.L;nvLay.clearLayers();nvPin(LF,p,key==="a"?"A":"B",key==="a"?"":"b").addTo(nvLay);nvMap.setView([p.lat,p.lon],13,{animate:true})}else nvEmbed(p.lat,p.lon,.05)}
+function nvPicked(p,key){if(key==="b")nvPhoto(p);if(nvPt.a&&nvPt.b)nvGo();else nvPreview(p,key)}
+function nvWeatherGroup(code){if(code===0)return"clear";if(code===1)return"mostly";if(code===2)return"partly";if(code===3)return"cloudy";if(code===45||code===48)return"fog";if([51,53,55,56,57].includes(code))return"drizzle";if([61,63,65,66,67].includes(code))return"rain";if([71,73,75,77,85,86].includes(code))return"snow";if([80,81,82].includes(code))return"showers";if(code>=95)return"storm";return"cloudy"}
+function nvWeatherRender(data){if(!data)return;const t=nvL(),code=Number(data.weather_code),day=Number(data.is_day)===1,group=nvWeatherGroup(code);$("#nvwplace").textContent=nvWeatherNearby?t.nearby:t.city;$("#nvwtemp").textContent=Math.round(data.temperature_2m)+"°";$("#nvwcondition").textContent=t.weather[group];$("#nvwicon").textContent=group==="clear"?(day?"☀️":"🌙"):group==="mostly"?(day?"🌤️":"☁️"):group==="partly"?"⛅":group==="cloudy"?"☁️":group==="fog"?"🌫️":group==="drizzle"?"🌦️":group==="rain"||group==="showers"?"🌧️":group==="snow"?"❄️":"⛈️";$("#nvwdayicon").textContent=day?"☀️":"🌙";$("#nvwday").textContent=day?t.day:t.night;$("#nvwfeels").textContent=t.feels+" "+Math.round(data.apparent_temperature)+"°"}
+async function nvWeather(lat,lon,nearby,force){if(!Number.isFinite(lat)||!Number.isFinite(lon))return;nvWeatherPos={lat,lon};nvWeatherNearby=nearby;$("#nvwplace").textContent=nvL()[nearby?"nearby":"city"];const key=lat.toFixed(2)+","+lon.toFixed(2);if(!force&&key===nvWeatherKey&&Date.now()-nvWeatherAt<600000){nvWeatherRender(nvWeatherData);return}if(key!==nvWeatherKey){nvWeatherData=null;$("#nvwtemp").textContent="--°"}const seq=++nvWeatherSeq,t=nvL();$("#nvweather").setAttribute("aria-busy","true");if(!nvWeatherData)$("#nvwcondition").textContent=t.weatherLoading;try{const url="https://api.open-meteo.com/v1/forecast?latitude="+encodeURIComponent(lat)+"&longitude="+encodeURIComponent(lon)+"&current=temperature_2m,apparent_temperature,is_day,weather_code&timezone=auto";const result=await jget(url,10000),current=result.current;if(!current||!Number.isFinite(Number(current.temperature_2m))||!Number.isFinite(Number(current.apparent_temperature)))throw new Error("Weather response is missing current conditions");if(seq!==nvWeatherSeq)return;nvWeatherData=current;nvWeatherKey=key;nvWeatherAt=Date.now();nvWeatherRender(current)}catch(error){if(seq===nvWeatherSeq&&!nvWeatherData)$("#nvwcondition").textContent=t.weatherError}finally{if(seq===nvWeatherSeq)$("#nvweather").setAttribute("aria-busy","false")}}
+function nvCenter(){if(!navigator.geolocation||!nvMap)return;navigator.geolocation.getCurrentPosition(p=>{const LF=window.L,c=[p.coords.latitude,p.coords.longitude];nvWeather(c[0],c[1],true);if(!nvR&&nvWatch==null)nvMap.setView(c,15);if(!nvMe)nvMe=LF.marker(c,{icon:LF.divIcon({className:"",html:'<div class="nvdot"></div>',iconSize:[18,18],iconAnchor:[9,9]})}).addTo(nvMap);else nvMe.setLatLng(c);if(!nvPt.a&&!$("#nva").value){nvPt.a={lat:c[0],lon:c[1],label:nvL().me};$("#nva").value=nvL().me}},()=>{nvIP().then(r=>{if(r){nvWeather(r.lat,r.lon,true);if(nvMap&&!nvR)nvMap.setView([r.lat,r.lon],12)}})},{enableHighAccuracy:true,timeout:9000,maximumAge:30000})}
+
+/* ---- dark vector map (Google Maps-like): MapLibre + OpenFreeMap (keyless), OSM raster fallback ---- */
+let nvRas=[],nvVec=null;
+const NV_VEC=[["https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css","https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"],["https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css","https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"]];
+const NV_PLG=["https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js","https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"];
+function nvScr(src,test){return new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.async=true;const t=setTimeout(()=>{s.remove();no(new Error("timeout"))},12000);s.onload=()=>{clearTimeout(t);test()?ok():no(new Error("nol"))};s.onerror=()=>{clearTimeout(t);s.remove();no(new Error("err"))};document.head.appendChild(s)})}
+function nvStyle(){const nm=["coalesce",["get","name:latin"],["get","name"]],F=["Noto Sans Regular"],cls=(a)=>["match",["get","class"],a,true,false],p={bg:"#101722",wood:"#123024",farm:"#1e2929",wet:"#102b32",land:"#171e28",park:"#153a2a",hospital:"#38242d",school:"#292a40",industry:"#242933",water:"#092f4b",river:"#176387",minor:"#344353",secondary:"#536579",primary:"#f0a94a",highway:"#f16c53",path:"#5d9a7a",rail:"#a16d91",building:"#263242",outline:"#3a4b60",extrusion:"#2b3c50",boundary:"#586b82",waterText:"#5bc3ef",roadText:"#d6e0ed",poiText:"#aebed2",placeText:"#f3f6fc",countryText:"#b9c7d9",halo:"#101722"};
+ const road=(id,a,col,w0,w1,z,extra)=>Object.assign({id,type:"line",source:"o","source-layer":"transportation",minzoom:z,filter:cls(a),layout:{"line-cap":"round","line-join":"round"},paint:{"line-color":col,"line-width":["interpolate",["exponential",1.4],["zoom"],z,w0,18,w1]}},extra||{});
+ return{version:8,glyphs:"https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",sources:{o:{type:"vector",url:"https://tiles.openfreemap.org/planet"}},layers:[
+ {id:"bg",type:"background",paint:{"background-color":p.bg}},
+ {id:"lc",type:"fill",source:"o","source-layer":"landcover",paint:{"fill-color":["match",["get","class"],["wood","grass"],p.wood,"farmland",p.farm,"wetland",p.wet,p.land],"fill-opacity":.9}},
+ {id:"lu",type:"fill",source:"o","source-layer":"landuse",paint:{"fill-color":["match",["get","class"],["park","cemetery","garden","pitch","stadium","playground"],p.park,["hospital"],p.hospital,["school","university","college","kindergarten"],p.school,["industrial","railway"],p.industry,p.land]}},
+ {id:"pk",type:"fill",source:"o","source-layer":"park",paint:{"fill-color":p.park,"fill-opacity":.9}},
+ {id:"wa",type:"fill",source:"o","source-layer":"water",paint:{"fill-color":p.water}},
+ {id:"ww",type:"line",source:"o","source-layer":"waterway",paint:{"line-color":p.river,"line-width":["interpolate",["linear"],["zoom"],10,.8,16,3.5]}},
+ road("rc",["trunk","motorway","primary"],p.minor,3,26,7),
+ road("r0",["service","track","minor"],p.minor,.6,9,13),
+ road("r1",["tertiary","secondary"],p.secondary,.9,15,11),
+ road("r2",["primary"],p.primary,1.2,19,8),
+ road("r3",["trunk","motorway"],p.highway,1.4,21,6),
+ road("rp",["path","pedestrian"],p.path,.7,2,15,{paint:{"line-color":p.path,"line-width":1,"line-dasharray":[2,2]}}),
+ road("rr",["rail","transit"],p.rail,.8,2,11,{paint:{"line-color":p.rail,"line-width":1,"line-dasharray":[3,3]}}),
+ {id:"bd2",type:"fill",source:"o","source-layer":"building",minzoom:13,maxzoom:15.5,paint:{"fill-color":p.building,"fill-outline-color":p.outline}},
+ {id:"bd3",type:"fill-extrusion",source:"o","source-layer":"building",minzoom:15,paint:{"fill-extrusion-color":p.extrusion,"fill-extrusion-height":["coalesce",["get","render_height"],6],"fill-extrusion-base":["coalesce",["get","render_min_height"],0],"fill-extrusion-opacity":.88}},
+ {id:"bn",type:"line",source:"o","source-layer":"boundary",filter:["<=",["get","admin_level"],4],paint:{"line-color":p.boundary,"line-width":1,"line-dasharray":[3,2]}},
+ {id:"wn",type:"symbol",source:"o","source-layer":"water_name",layout:{"text-field":nm,"text-font":F,"text-size":12},paint:{"text-color":p.waterText,"text-halo-color":p.halo,"text-halo-width":1}},
+ {id:"rn",type:"symbol",source:"o","source-layer":"transportation_name",minzoom:13,layout:{"symbol-placement":"line","text-field":nm,"text-font":F,"text-size":11,"text-letter-spacing":.03},paint:{"text-color":p.roadText,"text-halo-color":p.halo,"text-halo-width":1.3}},
+ {id:"po",type:"symbol",source:"o","source-layer":"poi",minzoom:15.5,layout:{"text-field":nm,"text-font":F,"text-size":10.5,"text-max-width":7,"text-anchor":"top","text-offset":[0,.3]},paint:{"text-color":p.poiText,"text-halo-color":p.halo,"text-halo-width":1.2}},
+ {id:"pl",type:"symbol",source:"o","source-layer":"place",filter:cls(["city","town","village","suburb","neighbourhood","hamlet"]),layout:{"text-field":nm,"text-font":F,"text-size":["match",["get","class"],"city",17,"town",14.5,"village",13,12],"text-max-width":8},paint:{"text-color":p.placeText,"text-halo-color":p.halo,"text-halo-width":1.5}},
+ {id:"co",type:"symbol",source:"o","source-layer":"place",filter:cls(["country"]),layout:{"text-field":nm,"text-font":F,"text-size":14,"text-transform":"uppercase","text-letter-spacing":.1},paint:{"text-color":p.countryText,"text-halo-color":p.halo,"text-halo-width":1.5}}]}}
+function nvRaster(LF){if(NV_TILE_URL){nvRas=[LF.tileLayer(NV_TILE_URL,{maxZoom:19,attribution:"© map data"}).addTo(nvMap)];return}
+ nvRas=[LF.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxNativeZoom:19,maxZoom:20,subdomains:"abc",attribution:"© OpenStreetMap contributors"}).addTo(nvMap)]}
+async function nvVector(LF){let g=null;try{
+ if(!window.maplibregl){let ok=false;for(const [css,js] of NV_VEC){try{const c=document.createElement("link");c.rel="stylesheet";c.href=css;document.head.appendChild(c);await nvScr(js,()=>window.maplibregl);ok=true;break}catch(e){}}if(!ok)throw new Error("ml")}
+ if(!LF.maplibreGL){let ok=false;for(const js of NV_PLG){try{await nvScr(js,()=>LF.maplibreGL);ok=true;break}catch(e){}}if(!ok)throw new Error("plg")}
+ g=LF.maplibreGL({style:nvStyle(),interactive:false});g.addTo(nvMap);const mm=g.getMaplibreMap();
+ await new Promise((ok,no)=>{const t=setTimeout(()=>no(new Error("timeout")),12000);mm.once("load",()=>{clearTimeout(t);ok()});mm.on("error",e=>{const s=String(e&&e.error&&e.error.message||"");if(/style|expected|Unimplemented|layer/i.test(s)&&!/tile|404|fetch|Failed/i.test(s)){clearTimeout(t);no(new Error(s))}})});return g}catch(e){try{g&&nvMap.removeLayer(g)}catch(_){}return null}}
+async function nvUpgrade(LF){if(NV_TILE_URL)return;const g=await nvVector(LF);if(g&&nvMap){nvRas.forEach(l=>{try{nvMap.removeLayer(l)}catch(_){}});nvRas=[];$("#nvmap").classList.remove("nvosm");nvVec=g}}
+function nvRoadRender(LF){if(!nvSignalLayer||!nvCameraLayer)return;nvSignalLayer.clearLayers();nvCameraLayer.clearLayers();if(!nvRoadData)return;
+ const add=(item,kind)=>{const signal=kind==="signals",label=signal?nvL().trafficLights:nvL().speedCameras,icon=LF.divIcon({className:"",html:'<span class="nvpoi '+(signal?"signal":"camera")+'">'+(signal?"🚦":"📸")+"</span>",iconSize:[32,32],iconAnchor:[16,16]});const popup=document.createElement("span");popup.textContent=label;LF.marker([item.lat,item.lon],{icon}).bindPopup(popup).addTo(signal?nvSignalLayer:nvCameraLayer)};
+ nvRoadData.signals.forEach(x=>add(x,"signals"));nvRoadData.cameras.forEach(x=>add(x,"cameras"))}
+async function nvRoadLoad(){if(!nvMap)return;const center=nvMap.getCenter(),step=.005,south=(Math.floor(center.lat/step)*step).toFixed(4),north=(Math.floor(center.lat/step)*step+step).toFixed(4),west=(Math.floor(center.lng/step)*step).toFixed(4),east=(Math.floor(center.lng/step)*step+step).toFixed(4),key=[south,west,north,east].join(",");
+ nvRoadViewKey=key;if(nvRoadCacheKey===key){nvRoadRender(window.L);return}
+ if(nvRoadRequestKey===key)return;
+ const wait=3000-(Date.now()-nvRoadLastRequest);if(wait>0){clearTimeout(nvRoadTimer);nvRoadTimer=setTimeout(nvRoadLoad,wait);return}
+ nvRoadLastRequest=Date.now();nvRoadRequestKey=key;const seq=++nvRoadSeq,url="https://api.openstreetmap.org/api/0.6/map?bbox="+[west,south,east,north].join(",");
+ try{const response=await fetch(url,{headers:{Accept:"application/xml"}});if(!response.ok)throw new Error("OpenStreetMap map request failed: HTTP "+response.status);const xml=new DOMParser().parseFromString(await response.text(),"application/xml");if(xml.querySelector("parsererror"))throw new Error("OpenStreetMap returned invalid map data");
+ const signals=[],cameras=[],seen=new Set();xml.querySelectorAll("node").forEach(node=>{const lat=Number(node.getAttribute("lat")),lon=Number(node.getAttribute("lon"));if(!Number.isFinite(lat)||!Number.isFinite(lon))return;const tags={};node.querySelectorAll("tag").forEach(tag=>{tags[tag.getAttribute("k")]=tag.getAttribute("v")});const id=node.getAttribute("id");if(tags.highway==="traffic_signals"&&!seen.has("s"+id)){seen.add("s"+id);signals.push({lat,lon})}else if(tags.highway==="speed_camera"&&!seen.has("c"+id)){seen.add("c"+id);cameras.push({lat,lon})}});
+ if(seq!==nvRoadSeq)return;nvRoadRequestKey="";if(nvRoadViewKey!==key){nvRoadLoad();return}nvRoadData={signals,cameras};nvRoadCacheKey=key;nvRoadRender(window.L)
+ }catch(error){if(seq!==nvRoadSeq)return;nvRoadRequestKey="";toast(nvL().layerError)}}
+async function nvInit(){if(nvMap)return true;try{await nvLoad()}catch(e){toast(T("eNet"));return false}const LF=window.L;nvMap=LF.map("nvmap",{zoomControl:false,dragging:true,touchZoom:true,scrollWheelZoom:true}).setView([40.18,44.5],12);nvRaster(LF);nvLay=LF.layerGroup().addTo(nvMap);nvSignalLayer=LF.layerGroup().addTo(nvMap);nvCameraLayer=LF.layerGroup().addTo(nvMap);nvMap.on("moveend",()=>{clearTimeout(nvRoadTimer);nvRoadTimer=setTimeout(nvRoadLoad,1200)});nvRoadTimer=setTimeout(nvRoadLoad,2500);try{new ResizeObserver(()=>nvMap&&nvMap.invalidateSize()).observe($("#nvmap"))}catch(e){}if(nvMap.on)nvMap.on("dragstart",()=>{nvFollow=false});return true}
+async function nvGeo(q){const enc=encodeURIComponent(q),pr=[
+jget("https://geocoding-api.open-meteo.com/v1/search?count=5&format=json&language="+L+"&name="+enc,9000).then(d=>(d.results||[]).map(x=>({lat:x.latitude,lon:x.longitude,name:x.name,label:[x.name,x.admin1,x.country].filter(Boolean).join(", ")}))),
+jget("https://nominatim.openstreetmap.org/search?format=json&limit=5&accept-language="+L+",en&q="+enc,9000).then(d=>d.map(x=>({lat:+x.lat,lon:+x.lon,name:x.name||x.display_name.split(", ")[0],label:x.display_name.split(", ").slice(0,3).join(", ")}))),
+jget("https://photon.komoot.io/api/?limit=5&q="+enc,9000).then(d=>(d.features||[]).map(f=>{const p=f.properties||{};return{lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0],name:p.name,label:[p.name,p.city&&p.city!==p.name?p.city:"",p.country].filter(Boolean).join(", ")}}))];
+const rs=await Promise.allSettled(pr),seen={},out=[];const city=!/[\d,]/.test(q);
+(city?[0,1,2]:[1,2,0]).forEach(k=>{if(rs[k].status!=="fulfilled")return;rs[k].value.forEach(p=>{if(!isFinite(p.lat)||!isFinite(p.lon))return;const key=Math.round(p.lat*20)+"/"+Math.round(p.lon*20);if(seen[key])return;seen[key]=1;out.push(p)})});return out.slice(0,6)}
+function nvSug(inp,box,key){let tm=0,seq=0;inp.oninput=()=>{clearTimeout(tm);nvPt[key]=null;const q=inp.value.trim();if(q.length<2){box.innerHTML="";return}const my=++seq;tm=setTimeout(async()=>{const r=await nvGeo(q);if(my!==seq)return;box.innerHTML="";r.forEach(p=>{const b=mk("button","nvo",p.label);b.type="button";b.onclick=()=>{nvPt[key]=p;inp.value=p.label;box.innerHTML="";nvPicked(p,key)};box.appendChild(b)})},500)};
+inp.onkeydown=async e=>{if(e.key!=="Enter")return;e.preventDefault();clearTimeout(tm);seq++;const q=inp.value.trim();if(!q)return;if(!nvPt[key]){const r=await nvGeo(q);if(!r.length){toast(nvL().nf);return}nvPt[key]=r[0];inp.value=r[0].label}box.innerHTML="";nvPicked(nvPt[key],key)}}
+function nvPin(LF,p,txt,cls){return LF.marker([p.lat,p.lon],{icon:LF.divIcon({className:"",html:'<div class="nvpin '+cls+'">'+txt+"</div>",iconSize:[28,28],iconAnchor:[14,14]})})}
+function nvNavIcon(LF){return LF.divIcon({className:"",html:'<div class="nvdot nav"></div>',iconSize:[36,36],iconAnchor:[18,18]})}
+function nvNavPosition(c){if(!nvMap)return;if(nvMe){nvMap.removeLayer(nvMe);nvMe=null}if(!nvNavMarker)nvNavMarker=window.L.marker(c,{icon:nvNavIcon(window.L),zIndexOffset:1000}).addTo(nvMap);else nvNavMarker.setLatLng(c)}
+function nvRouteBearing(c){if(!nvR||!nvR.pts||nvR.pts.length<2)return 0;let nearest=0,dist=Infinity;for(let i=0;i<nvR.pts.length;i++){const d=nvHav(c,nvR.pts[i]);if(d<dist){dist=d;nearest=i}}return nvBearing(nvR.pts[nearest],nvR.pts[Math.min(nearest+1,nvR.pts.length-1)])}
+async function nvRoute(a,b,mode){const q=a.lon+","+a.lat+";"+b.lon+","+b.lat+"?overview=full&geometries=geojson&steps=true";let d=null;try{d=await jget("https://routing.openstreetmap.de/routed-"+mode+"/route/v1/driving/"+q,16000)}catch(e){}if(!d||!d.routes||!d.routes[0]){d=await jget("https://router.project-osrm.org/route/v1/driving/"+q,16000);if(!d.routes||!d.routes[0])throw 0;const r=d.routes[0];if(mode!=="car")r.duration=r.distance/(mode==="foot"?1.4:4.2);return r}return d.routes[0]}
+async function nvResolve(){for(const k of["a","b"]){const inp=k==="a"?$("#nva"):$("#nvb"),q=inp.value.trim();if(!nvPt[k]&&q&&q!==nvL().me){const r=await nvGeo(q);if(r.length){nvPt[k]=r[0];inp.value=r[0].label}else{toast(nvL().nf);return false}}}return true}
+let nvPhK="";
+async function nvPhoto(p){const k=p.lat.toFixed(3)+p.lon.toFixed(3);if(k===nvPhK)return;nvPhK=k;const el=$("#nvpho"),name=p.name||p.label.split(",")[0];el.classList.add("on");el.innerHTML="";const im=mk("img"),tx=mk("div"),h=mk("b",""," "+name),sm=mk("span","","");h.textContent=name;sm.textContent=p.label;tx.append(h,sm);im.alt="";im.style.display="none";el.append(im,tx);$("#nvbot").classList.add("on");
+let r=[];try{r=await wiki(L,name)}catch(e){}if(!r.some(x=>x.i)&&L!=="en"){try{r=r.concat(await wiki("en",name))}catch(e){}}if(nvPhK!==k)return;const x=r.find(y=>y.i)||r[0];if(x){if(x.i){im.src=x.i;im.style.display="";im.onerror=()=>{im.style.display="none"}}if(x.s)sm.textContent=x.s.slice(0,110)+(x.s.length>110?"…":"")}}
+async function nvGo(){if(!(await nvResolve()))return;if(nvPt.b)nvPhoto(nvPt.b);if(!nvPt.a&&!$("#nva").value.trim()&&nvPt.b){nvMyPos("a");return}if(!nvPt.a||!nvPt.b)return;await nvInit();const LF=window.L,a=nvPt.a,b=nvPt.b;
+try{nvR=await nvRoute(a,b,nvMode)}catch(e){toast(nvL().none);return}
+const pts=nvR.geometry.coordinates.map(c=>[c[1],c[0]]);nvR.pts=pts;if(nvMap){nvLay.clearLayers();nvRouteCasing=LF.polyline(pts,{color:"#fff",weight:16,opacity:.94,lineCap:"round",lineJoin:"round"}).addTo(nvLay);nvRouteGlow=LF.polyline(pts,{color:"#075bc7",weight:12,opacity:.82,lineCap:"round",lineJoin:"round"}).addTo(nvLay);nvRouteLine=LF.polyline(pts,{color:"#168cff",weight:8,opacity:1,lineCap:"round",lineJoin:"round"}).addTo(nvLay);nvRouteHighlight=LF.polyline(pts,{color:"#a8e7ff",weight:2,opacity:.88,lineCap:"round",lineJoin:"round"}).addTo(nvLay);nvPin(LF,a,"A","").addTo(nvLay);nvPin(LF,b,"B","b").addTo(nvLay);if(nvWatch!=null&&nvNavMarker)nvNavPosition(nvLP?nvLP.c:[a.lat,a.lon]);if(nvWatch==null)nvMap.fitBounds(nvRouteLine.getBounds(),{padding:[60,60]})}else nvEmbed((a.lat+b.lat)/2,(a.lon+b.lon)/2,Math.max(.03,Math.abs(a.lat-b.lat),Math.abs(a.lon-b.lon))*1.2);
+const st=nvR.legs[0].steps;nvR.steps=st;$("#nvtm").textContent=nvFT(nvR.duration);$("#nvd").textContent=nvFD(nvR.distance)+" · "+nvL().ar+" "+nvETA(nvR.duration);
+const l=$("#nvst");l.innerHTML="";st.forEach(s=>{const r=mk("div");r.innerHTML="<em></em><span></span><small></small>";r.children[0].textContent=nvA(s);r.children[1].textContent=nvI(s);r.children[2].textContent=s.maneuver&&s.maneuver.type==="arrive"?"":nvFD(s.distance);l.appendChild(r)});
+$("#nvbot").classList.add("on","has");$("#nvg1").href="https://www.google.com/maps/dir/?api=1&origin="+a.lat+","+a.lon+"&destination="+b.lat+","+b.lon+"&travelmode="+({car:"driving",foot:"walking",bike:"bicycling"}[nvMode]);$("#nvg2").href="https://yandex.com/maps/?rtext="+a.lat+","+a.lon+"~"+b.lat+","+b.lon+"&rtt="+({car:"auto",foot:"pd",bike:"bc"}[nvMode])}
+function nvSay(x){if(nvMute||!window.speechSynthesis)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(x);u.lang=D[L].rec;speechSynthesis.speak(u)}catch(e){}}
+function nvBanner(dm){if(!nvR||!nvR.steps)return;const st=nvR.steps,k=Math.min(nvK,st.length-1),s=st[k],n=st[k+1],t=nvL();$("#nvbe").textContent=nvA(s);$("#nvbd").textContent=nvFD(dm==null?(st[k-1]?st[k-1].distance:0):dm);$("#nvbt").textContent=nvI(s);$("#nvbth").textContent=n?t.then+": "+nvA(n)+" "+nvI(n):""}
+function nvStats(dm,kmh){const st=nvR.steps,k=Math.min(nvK,st.length-1);let rem=dm;for(let i=k;i<st.length;i++)rem+=st[i].distance;const rt=nvR.duration*rem/Math.max(1,nvR.distance);$("#nvA1").textContent=nvETA(rt);$("#nvT1").textContent=nvFT(rt);$("#nvD1").textContent=nvFD(rem);if(kmh!=null)$("#nvSp").textContent=Math.round(kmh)}
+function nvPos(p){const LF=window.L,c=[p.coords.latitude,p.coords.longitude],prev=nvLP;let kmh=p.coords.speed!=null&&!isNaN(p.coords.speed)?p.coords.speed*3.6:null;if(kmh==null&&prev){const dt=(p.timestamp-prev.t)/1000;if(dt>0)kmh=nvHav(prev.c,c)/dt*3.6}const heading=p.coords.heading;if(heading!=null&&isFinite(heading))nvNavHeading=heading;else if(prev&&nvHav(prev.c,c)>2)nvNavHeading=nvBearing(prev.c,c);else nvNavHeading=nvRouteBearing(c);nvLP={c,t:p.timestamp};
+if(nvMap){if(nvWatch!=null)nvNavPosition(c);else if(!nvMe)nvMe=LF.marker(c,{icon:LF.divIcon({className:"",html:'<div class="nvdot"></div>',iconSize:[18,18],iconAnchor:[9,9]})}).addTo(nvMap);else nvMe.setLatLng(c);if(nvFollow)nvMap.setView(c,Math.max(nvMap.getZoom(),17))}
+if(!nvR||!nvR.steps)return;const st=nvR.steps,k=Math.min(nvK,st.length-1),nx=st[k],dm=nvHav(c,[nx.maneuver.location[1],nx.maneuver.location[0]]);
+if(k>=st.length-1&&dm<25){nvSay(nvL().p.arr);nvBanner(0);nvStats(0,0);setTimeout(nvStop,4000);return}
+if(dm<30&&nvK<st.length-1){nvK++;nvBanner();nvSay(nvI(st[nvK]))}else{nvBanner(dm);if(dm<200&&!nvSaid[nvK]){nvSaid[nvK]=1;nvSay(nvFD(dm)+", "+nvI(nx))}}
+nvStats(dm,kmh);
+let md=1e9;for(let i=0;i<nvR.pts.length;i+=2){const d=nvHav(c,nvR.pts[i]);if(d<md)md=d}
+if(md>70&&Date.now()-nvLastRe>12000&&nvPt.b){nvLastRe=Date.now();nvPt.a={lat:c[0],lon:c[1],label:nvL().me};nvK=1;nvSaid={};nvGo().then(()=>{nvBanner();})}}
+function nvStart(){if(!nvR)return;if(!navigator.geolocation){toast(nvL().nogeo);return}if(nvWatch!=null)return nvStop();nvK=1;nvSaid={};nvFollow=true;document.body.classList.add("nvlive");$("#nvbn").classList.add("on");$("#nvgo").classList.add("on");$("#nvgo").textContent=nvL().stop;nvBanner();nvStats(nvR.steps[0].distance,0);nvSay(nvI(nvR.steps[Math.min(1,nvR.steps.length-1)]));
+nvWatch=navigator.geolocation.watchPosition(nvPos,()=>{toast(nvL().nogeo);nvStop()},{enableHighAccuracy:true,maximumAge:2000,timeout:20000})}
+function nvStop(){if(nvWatch!=null)navigator.geolocation.clearWatch(nvWatch);nvWatch=null;if(nvNavMarker){const c=nvNavMarker.getLatLng();if(nvMap)nvMap.removeLayer(nvNavMarker);nvNavMarker=null;if(nvMap)nvMe=window.L.marker(c,{icon:window.L.divIcon({className:"",html:'<div class="nvdot"></div>',iconSize:[18,18],iconAnchor:[9,9]})}).addTo(nvMap)}nvLP=null;document.body.classList.remove("nvlive");$("#nvbn").classList.remove("on");$("#nvgo").classList.remove("on");$("#nvgo").textContent=nvL().start;try{speechSynthesis.cancel()}catch(e){}}
+
+async function nvIP(){const srcs=[["https://ipwho.is/",d=>d&&d.success!==false&&isFinite(d.latitude)?{lat:+d.latitude,lon:+d.longitude}:null],["https://ipapi.co/json/",d=>d&&isFinite(d.latitude)?{lat:+d.latitude,lon:+d.longitude}:null]];for(const [u,f] of srcs){try{const r=f(await jget(u,6000));if(r)return r}catch(e){}}return null}
+function nvMyPos(key){if(!navigator.geolocation){nvIP().then(r=>{if(r){nvPt[key]={lat:r.lat,lon:r.lon,label:nvL().me+" ≈"};(key==="a"?$("#nva"):$("#nvb")).value=nvPt[key].label;nvGo()}else toast(nvL().nogeo)});return}const ok=(lat,lon,approx)=>{nvPt[key]={lat,lon,label:nvL().me+(approx?" ≈":"")};(key==="a"?$("#nva"):$("#nvb")).value=nvPt[key].label;nvGo()};const fb=()=>nvIP().then(r=>{if(r)ok(r.lat,r.lon,true);else toast(nvL().nogeo)});navigator.geolocation.getCurrentPosition(p=>ok(p.coords.latitude,p.coords.longitude,false),fb,{enableHighAccuracy:true,timeout:12000})}
+function nvText(){const t=nvL();$("#nvt").textContent=t.t;$("#nva").placeholder=t.a;$("#nvb").placeholder=t.b;$("#tbcT").textContent=t.chat;$("#tbnT").textContent=t.t;$("#nvA1l").textContent=t.ar;$("#nvT1l").textContent=t.tl;$("#nvD1l").textContent=t.dl;$("#nvSpl").textContent=t.kh;$("#nvwplace").textContent=nvWeatherNearby?t.nearby:t.city;$("#nvwrefresh").setAttribute("aria-label",t.refreshWeather);$("#nvwrefresh").title=t.refreshWeather;$("#nvlegendSignals").textContent=t.trafficLights;$("#nvlegendCameras").textContent=t.speedCameras;document.querySelectorAll("#nvmd button").forEach(b=>b.textContent=t[b.dataset.m]);if(nvWatch==null)$("#nvgo").textContent=t.start;if(nvWeatherData)nvWeatherRender(nvWeatherData)}
+function tabSet(x){$("#tbbar").dataset.i=x==="nav"?1:0;document.querySelectorAll("#tb .tbi").forEach(b=>b.classList.toggle("on",b.dataset.tab===x))}
+async function openNav(){closeSide();closeSearch();$("#nv").classList.add("on");document.body.classList.add("nvon");tabSet("nav");nvText();nvWeather(nvWeatherPos.lat,nvWeatherPos.lon,nvWeatherNearby);if(await nvInit()){setTimeout(()=>nvMap.invalidateSize(),60);setTimeout(()=>nvMap.invalidateSize(),700);nvCenter()}else nvFail()}
+function closeNav(){nvStop();$("#nv").classList.remove("on");document.body.classList.remove("nvon");tabSet("chat")}
+$("#tbn").onclick=openNav;$("#tbc").onclick=()=>{closeNav();closeSearch()};
+$("#nvwrefresh").onclick=()=>nvWeather(nvWeatherPos.lat,nvWeatherPos.lon,nvWeatherNearby,true);
+$("#nvgo").onclick=nvStart;$("#nvme").onclick=()=>nvMyPos("a");
+$("#nvrc").onclick=()=>{nvFollow=true;const marker=nvNavMarker||nvMe;if(marker&&nvMap)nvMap.setView(marker.getLatLng(),17)};
+if(NV_TT){$("#nvtf").style.display="";$("#nvtf").onclick=()=>{if(!nvMap)return;const LF=window.L;if(nvTraf){nvMap.removeLayer(nvTraf);nvTraf=null}else{nvTraf=LF.tileLayer("https://api.tomtom.com/traffic/map/4/tile/flow/relative0/{z}/{x}/{y}.png?key="+NV_TT,{opacity:.85}).addTo(nvMap)}}}
+$("#nvsw").onclick=()=>{const t=nvPt.a;nvPt.a=nvPt.b;nvPt.b=t;const v=$("#nva").value;$("#nva").value=$("#nvb").value;$("#nvb").value=v;nvGo()};
+$("#nvmu").onclick=()=>{nvMute=!nvMute;$("#nvmu").textContent=nvMute?"🔇":"🔊";if(nvMute)try{speechSynthesis.cancel()}catch(e){}};
+document.querySelectorAll("#nvmd button").forEach(b=>b.onclick=()=>{nvMode=b.dataset.m;document.querySelectorAll("#nvmd button").forEach(x=>x.classList.toggle("on",x===b));nvGo()});
+document.querySelector('#nvmd [data-m="car"]').classList.add("on");
+nvSug($("#nva"),$("#nvsa"),"a");nvSug($("#nvb"),$("#nvsb"),"b");
+addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#nv").classList.contains("on"))closeNav()});
+{const o=applyL;applyL=function(){o();nvText()}}
+nvText();
+
 sendIcon(false);applyCfg();applyL();show();sync();
 <\/script></body></html>
 </script>
@@ -562,11 +827,11 @@ sendIcon(false);applyCfg();applyL();show();sync();
 (function(){let f=null;
 function open_(){if(f)return;const s=document.getElementById('appsrc').textContent.replace(/<\\\/script/g,'</script');
 f=document.createElement('iframe');f.title='Nexa AI';f.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;z-index:1000;background:#000';
-f.setAttribute('allow','clipboard-write; camera; microphone');f.srcdoc=s;document.body.appendChild(f);document.documentElement.style.overflow='hidden'}
+f.setAttribute('allow','geolocation *; clipboard-write; camera; microphone; geolocation');f.srcdoc=s;document.body.appendChild(f);document.documentElement.style.overflow='hidden'}
 function close_(){if(!f)return;f.remove();f=null;document.documentElement.style.overflow=''}
 function sync(){location.hash==='#app'?open_():close_()}
 addEventListener('hashchange',sync);sync();
 document.querySelectorAll('a[data-go]').forEach(a=>{a.setAttribute('href','#app');a.addEventListener('click',e=>{e.preventDefault();location.hash='#app'})});
 })();
 </script>
-</body></html>
+</body></html>vvv
