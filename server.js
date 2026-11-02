@@ -1,4 +1,3 @@
-
 "use strict";
 
 const express = require("express");
@@ -16,11 +15,11 @@ dotenv.config();
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
-const GEMINI_MODEL =
-  process.env.GEMINI_MODEL || "gemini-3.6-flash";
+const GROQ_MODEL =
+  process.env.GROQ_MODEL || "qwen/qwen3.8-27b";
 
-const GEMINI_URL =
-  `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+const GROQ_URL =
+  "https://api.groq.com/openai/v1/chat/completions";
 
 const MEMORY_FILE = path.join(__dirname, "memory.json");
 
@@ -29,8 +28,8 @@ const MAX_FILES = 3;
 const MAX_TEXT_CHARS = 20000;
 const MAX_HISTORY = 20;
 
-if (!process.env.GEMINI_API_KEY) {
-  console.error("GEMINI_API_KEY-ը բացակայում է .env ֆայլում։");
+if (!process.env.GROQ_API_KEY) {
+  console.error("GROQ_API_KEY-ը բացակայում է .env ֆայլում։");
   process.exit(1);
 }
 
@@ -48,7 +47,7 @@ const SYSTEM_INSTRUCTION = `
 - Արմանը Nexa AI-ի ստեղծման աշխատանքները սկսել է 14 տարեկանում։
 - Արմանը նախագծի գաղափարի, զարգացման և ծրագրավորման պատասխանատուն է։
 - Nexa AI-ն ստեղծվել է որպես օգտակար և հասանելի AI օգնական։
-- Google Gemini-ն Nexa AI-ի օգտագործած AI մոդելն է, ոչ թե Nexa AI նախագծի ստեղծողը։
+- Groq-ի միջոցով աշխատող Qwen մոդելն է Nexa AI-ի օգտագործած AI մոդելը, ոչ թե Nexa AI նախագծի ստեղծողը։
 - Մի՛ շփոթիր նախագծի ստեղծողին և AI մոդելի մատակարարին։
 
 ԵՐԲ ՀԱՐՑՆՈՒՄ ԵՆ՝ Ո՞Վ Է ՔԵԶ ՍՏԵՂԾԵԼ
@@ -107,25 +106,61 @@ Nexa AI-ն նախատեսված է մարդկանց օգնելու համար՝ 
 `;
 
 // =====================================
-// GEMINI API
+// GROQ API
 // =====================================
 
-async function geminiGenerate(contents, options = {}) {
-  const response = await fetch(GEMINI_URL, {
+async function groqGenerate(contents, options = {}) {
+  const messages = [
+    {
+      role: "system",
+      content: SYSTEM_INSTRUCTION
+    }
+  ];
+
+  for (const item of contents) {
+    const role = item.role === "model" ? "assistant" : item.role;
+    const parts = Array.isArray(item.parts) ? item.parts : [];
+
+    const textParts = parts
+      .filter((part) => typeof part.text === "string")
+      .map((part) => ({
+        type: "text",
+        text: part.text
+      }));
+
+    const imageParts = parts
+      .filter((part) => part.inlineData?.data)
+      .map((part) => ({
+        type: "image_url",
+        image_url: {
+          url: `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`
+        }
+      }));
+
+    const content = [...textParts, ...imageParts];
+
+    if (content.length > 0) {
+      messages.push({
+        role,
+        content:
+          content.length === 1 && content[0].type === "text"
+            ? content[0].text
+            : content
+      });
+    }
+  }
+
+  const response = await fetch(GROQ_URL, {
     method: "POST",
     headers: {
-      "x-goog-api-key": process.env.GEMINI_API_KEY,
+      Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      systemInstruction: {
-        parts: [{ text: SYSTEM_INSTRUCTION }]
-      },
-      contents,
-      generationConfig: {
-        maxOutputTokens: options.maxTokens || 2048,
-        temperature: options.temperature ?? 0.5
-      }
+      model: GROQ_MODEL,
+      messages,
+      max_completion_tokens: options.maxTokens || 2048,
+      temperature: options.temperature ?? 0.5
     })
   });
 
@@ -134,30 +169,24 @@ async function geminiGenerate(contents, options = {}) {
   try {
     data = await response.json();
   } catch {
-    throw new Error("Gemini API-ն վերադարձրել է անհասկանալի պատասխան։");
+    throw new Error("Groq API-ն վերադարձրել է անհասկանալի պատասխան։");
   }
 
   if (!response.ok) {
     const error = new Error(
-      data.error?.message ||
-      `Gemini API error: ${response.status}`
+      data.error?.message || `Groq API error: ${response.status}`
     );
 
     error.status = response.status;
-    error.apiStatus = data.error?.status;
+    error.apiStatus = data.error?.code;
     throw error;
   }
 
-  const parts = data.candidates?.[0]?.content?.parts || [];
+  const text = data.choices?.[0]?.message?.content;
 
-  const text = parts
-    .filter((part) => typeof part.text === "string")
-    .map((part) => part.text)
-    .join("");
-
-  if (!text.trim()) {
+  if (typeof text !== "string" || !text.trim()) {
     const error = new Error(
-      "Gemini-ն այս հարցման համար տեքստային պատասխան չի վերադարձրել։"
+      "Groq-ն այս հարցման համար տեքստային պատասխան չի վերադարձրել։"
     );
 
     error.status = 502;
@@ -445,7 +474,7 @@ async function analyzeImage(message, file) {
 
   const base64 = file.buffer.toString("base64");
 
-  return await geminiGenerate(
+  return await groqGenerate(
     [
       {
         role: "user",
@@ -479,8 +508,8 @@ app.get("/api/status", (req, res) => {
     online: true,
     assistant: "Nexa AI",
     edition: "Advanced",
-    provider: "Google Gemini API",
-    model: GEMINI_MODEL,
+    provider: "Groq API",
+    model: GROQ_MODEL,
     visionEnabled: true,
     port: PORT
   });
@@ -588,8 +617,8 @@ app.post(
           parts: [{ text: item.content }]
         }));
 
-      // Gemini հարցում
-      const reply = await geminiGenerate(
+      // Groq հարցում
+      const reply = await groqGenerate(
         [
           ...history,
           {
@@ -627,8 +656,8 @@ app.post(
         reply,
         assistant: "Nexa AI",
         edition: "Advanced",
-        provider: "Google Gemini API",
-        model: GEMINI_MODEL,
+        provider: "Groq API",
+        model: GROQ_MODEL,
         conversationId,
         filesProcessed: files.length
       });
@@ -674,19 +703,19 @@ app.use((error, req, res, next) => {
 
   if (error.status === 429) {
     return res.status(429).json({
-      error: "Gemini API-ի հարցումների սահմանաչափը լրացել է։ Փորձիր ավելի ուշ։"
+      error: "Groq API-ի հարցումների սահմանաչափը լրացել է։ Փորձիր ավելի ուշ։"
     });
   }
 
   if ([401, 403].includes(error.status)) {
     return res.status(502).json({
-      error: "Gemini API-ի թույլտվության խնդիր։ Ստուգիր .env կարգավորումները։"
+      error: "Groq API-ի թույլտվության խնդիր։ Ստուգիր GROQ_API_KEY կարգավորումը։"
     });
   }
 
   if (error.status === 400) {
     return res.status(400).json({
-      error: "Gemini API-ն չի ընդունել հարցումը։ Ստուգիր մոդելի և հարցման կարգավորումները։"
+      error: "Groq API-ն չի ընդունել հարցումը։ Ստուգիր մոդելի և հարցման կարգավորումները։"
     });
   }
 
@@ -710,6 +739,6 @@ app.listen(PORT, () => {
     `Nexa AI-ն աշխատում է՝ http://localhost:${PORT}`
   );
 
-  console.log(`Text model: ${GEMINI_MODEL}`);
+  console.log(`Text model: ${GROQ_MODEL}`);
   console.log("Vision: միացված է");
 });
