@@ -709,4 +709,4 @@ app.listen(PORT, () => {
   console.log(
     `Vision: ${GROQ_VISION_MODEL ? "կարգավորված է" : "անջատված է"}`
   );
-});vv
+});
